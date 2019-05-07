@@ -32,3 +32,8 @@ nav a:hover {
 nav a.active {
 	background-color: #FBC403;
 	color: #0A0A0A;
+}
+
+#profile {
+    float: right;
+}
