@@ -1,10 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect
 from login import Login
+from flask_login import LoginManager
 import sqlite3
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '/trailing_slashes/'
+login = LoginManager(app)
 
 
 @app.route('/')
@@ -22,9 +24,13 @@ def profile():
     return render_template("profile.html", page_title="Profile")
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = Login()
+    if form.validate_on_submit():
+        flash('Login Requested for user {}, remember_me={}'.format(
+              form.username.data, form.remember_me.data))
+        return redirect(url_for('index'))
     return render_template('login.html', page_title="Sign In", form=form)
 
 
