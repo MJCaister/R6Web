@@ -1,5 +1,5 @@
-from flask import Flask, render_template, flash, redirect
-from login import Login
+from flask import Flask, render_template, flash, redirect, url_for
+from login import Login, set_password, check_password, Signup
 from flask_login import LoginManager
 import sqlite3
 
@@ -30,8 +30,23 @@ def login():
     if form.validate_on_submit():
         flash('Login Requested for user {}, remember_me={}'.format(
               form.username.data, form.remember_me.data))
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     return render_template('login.html', page_title="Sign In", form=form)
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    conn = sqlite3.connect('db/r6web.db')
+    cur = conn.cursor()
+    form = Signup()
+    if form.validate_on_submit():
+        flash('Signup requested for {}'.format(
+              form.username.data))
+        set_password(form.password.data)
+        cur.execute("INSERT INTO ProfileInformation (username, password_hash) VALUES ('{}', '{}');".format(form.username.data, set_password))
+        results = cur.fetchone()
+        return redirect(url_for('login'))
+    return render_template('signup.html', page_title="Sign Up", form=form)
 
 
 if __name__ == "__main__":
