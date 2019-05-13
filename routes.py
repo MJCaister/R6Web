@@ -33,14 +33,13 @@ def login():
     if form.validate_on_submit():
         conn = sqlite3.connect('db/r6web.db')
         cur = conn.cursor()
-        cur.execute("SELECT username FROM ProfileInformation WHERE username=('{}');".format(form.username.data))
-        un = cur.fetchall()
-        print('Username: {}'.format(un))
-        cur.execute("SELECT password_hash FROM ProfileInformation WHERE username=('{}');".format(form.username.data))
-        pw = cur.fetchall()
-        print('Password: {}'.format(pw))
-        print(check_password_hash(pw, form.password.data))
-        if un is None or not check_password_hash(pw, form.password.data):
+        cur.execute('''SELECT username FROM ProfileInformation
+                    WHERE username =('{}');'''.format(form.username.data))
+        un = cur.fetchone()
+        cur.execute('''SELECT password_hash FROM ProfileInformation
+                    WHERE username = ('{}');'''.format(form.username.data))
+        pw = cur.fetchone()
+        if un[0] is None or not check_password_hash(pw[0], form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
@@ -57,7 +56,10 @@ def signup():
     if form.validate_on_submit():
         flash('Signup requested for {}'.format(
               form.username.data))
-        cur.execute("INSERT INTO ProfileInformation (username, password_hash) VALUES ('{}', '{}');".format(form.username.data, generate_password_hash(form.password.data)))
+        cur.execute("INSERT INTO ProfileInformation (username, password_hash)"
+                    "VALUES ('{}', '{}');".format(form.username.data,
+                                                  generate_password_hash(
+                                                    form.password.data)))
         conn.commit()
         return redirect(url_for('login'))
     return render_template('signup.html', page_title="Sign Up", form=form)
