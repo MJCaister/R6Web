@@ -15,11 +15,3 @@ class Signup(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign Up')
-
-
-class passwords():
-    def set_password(password):
-        password_hash = generate_password_hash(password)
-
-    def check_password(password):
-        return check_password_hash(password_hash, password)
