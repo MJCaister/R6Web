@@ -43,8 +43,8 @@ def signup():
         flash('Signup requested for {}'.format(
               form.username.data))
         set_password(form.password.data)
-        cur.execute("INSERT INTO ProfileInformation (username, password_hash) VALUES ('{}', '{}');".format(form.username.data, set_password))
-        results = cur.fetchone()
+        cur.execute("INSERT INTO ProfileInformation (username, password_hash) VALUES ('{}', '{}');".format(form.username.data, set_password.password_hash))
+        conn.commit()
         return redirect(url_for('login'))
     return render_template('signup.html', page_title="Sign Up", form=form)
 

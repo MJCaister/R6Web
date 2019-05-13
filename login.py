@@ -17,9 +17,9 @@ class Signup(FlaskForm):
     submit = SubmitField('Sign Up')
 
 
-def set_password(password):
-    password_hash = generate_password_hash(password)
+class passwords():
+    def set_password(password):
+        password_hash = generate_password_hash(password)
 
-
-def check_password(password):
-    return check_password_hash(password_hash, password)
+    def check_password(password):
+        return check_password_hash(password_hash, password)
