@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for
-from login import Login, set_password, check_password, Signup
+from login import Login, passwords, Signup
 from flask_login import LoginManager
 import sqlite3
 
