@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>Login</h1>
+    <h1>Submit Data</h1>
     <form action="" method="post" novalidate>
-        
+
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
@@ -19,7 +19,6 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}
