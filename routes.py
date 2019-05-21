@@ -41,7 +41,6 @@ def submit():
         if un[0] is None or not check_password_hash(pw[0], form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
-        print("logged in")
         return redirect(url_for('home'))
     return render_template('submitdata.html', page_title="Sign In", form=form)
 

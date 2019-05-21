@@ -13,3 +13,8 @@ class Signup(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign Up')
+
+
+class UserSearch(FlaskForm):
+    username_search = StringField('Search for a player',
+                                  validators=[DataRequired()])
