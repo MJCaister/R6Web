@@ -18,3 +18,4 @@ class Signup(FlaskForm):
 class UserSearch(FlaskForm):
     username_search = StringField('Search for a player',
                                   validators=[DataRequired()])
+    submit = SubmitField('Search')
