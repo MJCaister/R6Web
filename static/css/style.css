@@ -9,11 +9,11 @@ nav {
 	top: 0;
 	background-color: rgba(10, 10, 10, 0.5);
 	overflow: hidden;
-	opacity: 50%;
+    opacity: 50%;
 }
 
 nav a {
-	float: left;
+    float: left;
 	color: #FFDD03;
 	text-align: center;
 	padding: 14px 16px;
@@ -36,4 +36,8 @@ nav a.active {
 
 #profile {
     float: right;
+}
+
+span {
+
 }

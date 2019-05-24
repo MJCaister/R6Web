@@ -18,7 +18,7 @@ def leaderboard():
     return render_template("leaderboard.html", page_title="Leaderboard")
 
 
-@app.route('/profile/<username>')
+@app.route('/profile')
 def profile(username):
     conn = sqlite3.connect('db/r6web')
     cur = conn.cursor()
@@ -42,7 +42,8 @@ def submit():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         return redirect(url_for('home'))
-    return render_template('submitdata.html', page_title="Sign In", form=form)
+    return render_template('submitdata.html', page_title="Submit Data",
+                           form=form)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
