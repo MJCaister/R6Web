@@ -19,6 +19,27 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+        <p>
+            {{ form.kills.label }}<br>
+            {{ form.kills(size=2) }}<br>
+            {% for error in form.kills.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.deaths.label }}<br>
+            {{ form.deaths(size=2) }}<br>
+            {% for error in form.deaths.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.MMR.label }}<br>
+            {{ form.MMR(size=32) }}<br>
+            {% for error in form.MMR.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}

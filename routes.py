@@ -40,7 +40,7 @@ def submit():
         pw = cur.fetchone()
         if un[0] is None or not check_password_hash(pw[0], form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('submit'))
         return redirect(url_for('home'))
     return render_template('submitdata.html', page_title="Submit Data",
                            form=form)
@@ -54,12 +54,12 @@ def signup():
     if form.validate_on_submit():
         flash('Signup requested for {}'.format(
               form.username.data))
-        cur.execute("INSERT INTO ProfileInformation (username, password_hash)"
-                    "VALUES ('{}', '{}');".format(form.username.data,
-                                                  generate_password_hash(
+        cur.execute('''INSERT INTO ProfileInformation (username, password_hash)
+                    VALUES ('{}', '{}');'''.format(form.username.data,
+                                                   generate_password_hash(
                                                     form.password.data)))
         conn.commit()
-        return redirect(url_for('login'))
+        return redirect(url_for('signup'))
     return render_template('signup.html', page_title="Sign Up", form=form)
 
 
