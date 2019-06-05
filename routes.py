@@ -38,9 +38,14 @@ def submit():
         cur.execute('''SELECT password_hash FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
         pw = cur.fetchone()
+        cur.execute('''INSERT INTO SubmitedData (username, kills, deaths, MMR)
+                    VALUES ('{}', '{}', '{}', '{}');'''.format(
+                    form.username.data, form.kills.data, form.deaths.data,
+                    form.MMR.data))
         if un[0] is None or not check_password_hash(pw[0], form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('submit'))
+        conn.commit()
         return redirect(url_for('home'))
     return render_template('submitdata.html', page_title="Submit Data",
                            form=form)
