@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for
-from users import SubmitData, Signup
+from users import SubmitData, Signup, UserSearch
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 
@@ -18,12 +18,16 @@ def leaderboard():
     return render_template("leaderboard.html", page_title="Leaderboard")
 
 
-@app.route('/profile')
-def profile(username):
-    conn = sqlite3.connect('db/r6web')
-    cur = conn.cursor()
-    cur.execute()
-    return render_template("profile.html", page_title="Profile")
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    form = UserSearch()
+    if form.validate_on_submit():
+        conn = sqlite3.connect('db/r6web')
+        cur = conn.cursor()
+        cur.execute('''SELECT username FROM ProfileInformation WHERE username = ('{}')'''.format(form.username_search.data))
+        search = cur.fetchall()
+        return redirect(url_for('search'), search=search)
+    return render_template("search.html", page_title="Profile", form=form)
 
 
 @app.route('/submit', methods=['GET', 'POST'])
@@ -33,7 +37,7 @@ def submit():
         conn = sqlite3.connect('db/r6web.db')
         cur = conn.cursor()
         cur.execute('''SELECT username FROM ProfileInformation
-                    WHERE username =('{}');'''.format(form.username.data))
+                    WHERE username = ('{}');'''.format(form.username.data))
         un = cur.fetchone()
         cur.execute('''SELECT password_hash FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
