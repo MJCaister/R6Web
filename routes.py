@@ -22,19 +22,28 @@ def leaderboard():
 def search():
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
-    search = cur.fetchone()
     form = UserSearch()
     if form.validate_on_submit():
-        cur.execute('''SELECT username FROM ProfileInformation WHERE
+        cur.execute('''SELECT username, profile_image FROM ProfileInformation WHERE
                     username = ('{}')'''.format(form.username_search.data))
         search = cur.fetchone()
-        return redirect(url_for('search_results', search=search[0]))
+        if search == None:
+            flash("No users found")
+            return redirect(url_for('search'))
+        return redirect(url_for('search_results', search=search[0], image=search[1]))
     return render_template("search.html", page_title="Profile", form=form)
 
 
 @app.route('/search_results/<search>')
 def search_results(search):
-    return render_template("results.html", page_title="Search for {}".format(search), search=search)
+    conn = sqlite3.connect('db/r6web.db')
+    cur = conn.cursor()
+    cur.execute('''SELECT profile_image FROM ProfileInformation
+                WHERE username = '{}' '''.format(search))
+    image = cur.fetchone()
+    return render_template("results.html",
+                           page_title="Search for {}".format(search),
+                           search=search, image=image)
 
 
 @app.route('/submit', methods=['GET', 'POST'])
@@ -46,9 +55,21 @@ def submit():
         cur.execute('''SELECT username FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
         un = cur.fetchone()
+        if un == None:
+            flash("Username/Password not found")
+            return redirect(url_for('submit'))
         cur.execute('''SELECT password_hash FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
         pw = cur.fetchone()
+        if form.kills.data > 50 or form.kills.data < 0:
+            flash("Kills is too big or too small")
+            return redirect(url_for('submit'))
+        if form.deaths.data > 10 or form.kills.data < 0:
+            flash("Deaths is too big or too small")
+            return redirect(url_for('submit'))
+        if form.MMR.data > 15000 or form.kills.data < 0:
+            flash("MMR is too big or too small")
+            return redirect(url_for('submit'))
         cur.execute('''INSERT INTO SubmitedData (username, kills, deaths, MMR)
                     VALUES ('{}', '{}', '{}', '{}');'''.format(
                     form.username.data, form.kills.data, form.deaths.data,
