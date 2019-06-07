@@ -20,14 +20,21 @@ def leaderboard():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+    conn = sqlite3.connect('db/r6web.db')
+    cur = conn.cursor()
+    search = cur.fetchone()
     form = UserSearch()
     if form.validate_on_submit():
-        conn = sqlite3.connect('db/r6web')
-        cur = conn.cursor()
-        cur.execute('''SELECT username FROM ProfileInformation WHERE username = ('{}')'''.format(form.username_search.data))
-        search = cur.fetchall()
-        return redirect(url_for('search'), search=search)
+        cur.execute('''SELECT username FROM ProfileInformation WHERE
+                    username = ('{}')'''.format(form.username_search.data))
+        search = cur.fetchone()
+        return redirect(url_for('search_results', search=search[0]))
     return render_template("search.html", page_title="Profile", form=form)
+
+
+@app.route('/search_results/<search>')
+def search_results(search):
+    return render_template("results.html", page_title="Search for {}".format(search), search=search)
 
 
 @app.route('/submit', methods=['GET', 'POST'])
