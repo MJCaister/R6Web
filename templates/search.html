@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Player Search</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username_search.label }}<br>
+            {{ form.username_search(size=32) }}<br>
+            {% for error in form.username_search.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+        {% for username in search %}
+        <p>{{search[0]}}</p>
+        {% endfor %}
+    </form>
+{% endblock %}

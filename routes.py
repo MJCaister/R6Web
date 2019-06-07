@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for
-from users import SubmitData, Signup
+from users import SubmitData, Signup, UserSearch
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 
@@ -18,12 +18,23 @@ def leaderboard():
     return render_template("leaderboard.html", page_title="Leaderboard")
 
 
-@app.route('/profile')
-def profile(username):
-    conn = sqlite3.connect('db/r6web')
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
-    cur.execute()
-    return render_template("profile.html", page_title="Profile")
+    search = cur.fetchone()
+    form = UserSearch()
+    if form.validate_on_submit():
+        cur.execute('''SELECT username FROM ProfileInformation WHERE
+                    username = ('{}')'''.format(form.username_search.data))
+        search = cur.fetchone()
+        return redirect(url_for('search_results', search=search[0]))
+    return render_template("search.html", page_title="Profile", form=form)
+
+
+@app.route('/search_results/<search>')
+def search_results(search):
+    return render_template("results.html", page_title="Search for {}".format(search), search=search)
 
 
 @app.route('/submit', methods=['GET', 'POST'])
@@ -33,14 +44,19 @@ def submit():
         conn = sqlite3.connect('db/r6web.db')
         cur = conn.cursor()
         cur.execute('''SELECT username FROM ProfileInformation
-                    WHERE username =('{}');'''.format(form.username.data))
+                    WHERE username = ('{}');'''.format(form.username.data))
         un = cur.fetchone()
         cur.execute('''SELECT password_hash FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
         pw = cur.fetchone()
+        cur.execute('''INSERT INTO SubmitedData (username, kills, deaths, MMR)
+                    VALUES ('{}', '{}', '{}', '{}');'''.format(
+                    form.username.data, form.kills.data, form.deaths.data,
+                    form.MMR.data))
         if un[0] is None or not check_password_hash(pw[0], form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('submit'))
+        conn.commit()
         return redirect(url_for('home'))
     return render_template('submitdata.html', page_title="Submit Data",
                            form=form)
@@ -54,12 +70,12 @@ def signup():
     if form.validate_on_submit():
         flash('Signup requested for {}'.format(
               form.username.data))
-        cur.execute("INSERT INTO ProfileInformation (username, password_hash)"
-                    "VALUES ('{}', '{}');".format(form.username.data,
-                                                  generate_password_hash(
+        cur.execute('''INSERT INTO ProfileInformation (username, password_hash)
+                    VALUES ('{}', '{}');'''.format(form.username.data,
+                                                   generate_password_hash(
                                                     form.password.data)))
         conn.commit()
-        return redirect(url_for('login'))
+        return redirect(url_for('signup'))
     return render_template('signup.html', page_title="Sign Up", form=form)
 
 
