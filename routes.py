@@ -27,10 +27,11 @@ def search():
         cur.execute('''SELECT username, profile_image FROM ProfileInformation WHERE
                     username = ('{}')'''.format(form.username_search.data))
         search = cur.fetchone()
-        if search == None:
+        if search is None:
             flash("No users found")
             return redirect(url_for('search'))
-        return redirect(url_for('search_results', search=search[0], image=search[1]))
+        return redirect(url_for('search_results', search=search[0],
+                                image=search[1]))
     return render_template("search.html", page_title="Profile", form=form)
 
 
@@ -55,7 +56,7 @@ def submit():
         cur.execute('''SELECT username FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
         un = cur.fetchone()
-        if un == None:
+        if un is None:
             flash("Username/Password not found")
             return redirect(url_for('submit'))
         cur.execute('''SELECT password_hash FROM ProfileInformation
@@ -70,9 +71,12 @@ def submit():
         if form.MMR.data > 15000 or form.kills.data < 0:
             flash("MMR is too big or too small")
             return redirect(url_for('submit'))
-        cur.execute('''INSERT INTO SubmitedData (username, kills, deaths, MMR)
+        cur.execute('''SELECT id FROM ProfileInformation
+                    WHERE username = "{}"'''.format(form.username.data))
+        unid = cur.fetchone()
+        cur.execute('''INSERT INTO SubmitedData (pid, kills, deaths, MMR)
                     VALUES ('{}', '{}', '{}', '{}');'''.format(
-                    form.username.data, form.kills.data, form.deaths.data,
+                    unid[0], form.kills.data, form.deaths.data,
                     form.MMR.data))
         if un[0] is None or not check_password_hash(pw[0], form.password.data):
             flash('Invalid username or password')
@@ -98,6 +102,17 @@ def signup():
         conn.commit()
         return redirect(url_for('signup'))
     return render_template('signup.html', page_title="Sign Up", form=form)
+
+
+@app.route('/user/<user>')
+def user(user):
+    conn = sqlite3.connect('db/r6web.db')
+    cur = conn.cursor()
+    cur.execute('''SELECT profile_image FROM ProfileInformation
+                WHERE username = '{}' '''.format(user))
+    results = cur.fetchone()
+    return render_template('user.html', page_title=user, user=user,
+                           results=results)
 
 
 if __name__ == "__main__":
