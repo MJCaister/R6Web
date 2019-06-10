@@ -38,6 +38,10 @@ nav a.active {
     float: right;
 }
 
+#user img {
+    border: 1px #000
+}
+
 span {
 
 }

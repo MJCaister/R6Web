@@ -1,6 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField, IntegerField
-from wtforms.validators import DataRequired
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms.validators import DataRequired, ValidationError
+
+
+'''def int_check(form, field):
+    try:
+        check = int(field.data)
+    except ValueError:
+        raise ValidationError('Must only contain numbers!')'''
 
 
 class SubmitData(FlaskForm):
@@ -15,7 +22,7 @@ class SubmitData(FlaskForm):
 class Signup(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    # image = 
+    # image =
     submit = SubmitField('Sign Up')
 
 

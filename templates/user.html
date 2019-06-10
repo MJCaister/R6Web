@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>{{user}}</h1>
-    <img href={{results[0]}} alt="{{user}}'s profile image">
+    <div id="user">
+        <h3>{{user}}'s Profile</h3>
+        <img src={{results[0]}} alt="{{user}}'s profile image">
+    </div>
 {% endblock %}
