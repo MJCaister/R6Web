@@ -24,9 +24,9 @@ def search():
     cur = conn.cursor()
     form = UserSearch()
     if form.validate_on_submit():
-        cur.execute('''SELECT username, profile_image FROM ProfileInformation WHERE
-                    username = ('{}')'''.format(form.username_search.data))
+        cur.execute('''SELECT username, profile_image FROM ProfileInformation
         search = cur.fetchone()
+                    WHERE username = ('{}')'''.format(form.username_search.data))
         if search is None:
             flash("No users found")
             return redirect(url_for('search'))
