@@ -19,8 +19,8 @@ class SubmitData(FlaskForm):
 class Signup(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    image = FileField('Profile Image (This can be added later)', validators=[
-                      FileAllowed(['jpg', 'png'], 'Images only!')])
+    image = FileField('Profile Image (This can be added later) [.jpg, .png]', validators=[
+                      FileAllowed(['jpg', 'png'], '.jpg or .png only!')])
     submit = SubmitField('Sign Up')
 
 

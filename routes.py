@@ -97,10 +97,7 @@ def signup():
     if form.validate_on_submit():
         flash('Signup requested for {}.'.format(
               form.username.data))
-        cur.execute('''INSERT INTO ProfileInformation (username, password_hash)
-                    VALUES ('{}', '{}');'''.format(form.username.data,
-                                                   generate_password_hash(
-                                                    form.password.data)))
+        cur.execute('''INSERT INTO ProfileInformation (username, password_hash, profile_image) VALUES ('{}', '{}', '{}');'''.format(form.username.data, generate_password_hash(form.password.data)))
         conn.commit()
         return redirect(url_for('signup'))
     return render_template('signup.html', page_title="Sign Up", form=form)
