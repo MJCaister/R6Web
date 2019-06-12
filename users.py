@@ -7,17 +7,20 @@ from wtforms.validators import DataRequired, ValidationError
 class SubmitData(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    kills = IntegerField('Kills', validators=[DataRequired("Please enter a number")])
-    deaths = IntegerField('Deaths', validators=[DataRequired("Please enter a number")])
-    MMR = IntegerField('MMR/ELO after game', validators=[DataRequired("Please enter a number")])
-    submit = SubmitField('Sign In')
+    kills = IntegerField('Kills', validators=[
+                         DataRequired("Please enter a whole number.")])
+    deaths = IntegerField('Deaths', validators=[
+                          DataRequired("Please enter a whole number.")])
+    MMR = IntegerField('MMR/ELO after game', validators=[
+                       DataRequired("Please enter a whole number.")])
+    submit = SubmitField('Submit Data')
 
 
 class Signup(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     image = FileField('Profile Image (This can be added later)', validators=[
-    FileAllowed(['jpg', 'png'], 'Images only!')])
+                      FileAllowed(['jpg', 'png'], 'Images only!')])
     submit = SubmitField('Sign Up')
 
 

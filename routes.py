@@ -25,10 +25,11 @@ def search():
     form = UserSearch()
     if form.validate_on_submit():
         cur.execute('''SELECT username, profile_image FROM ProfileInformation
+                    WHERE username = ('{}')'''.format(
+                    form.username_search.data))
         search = cur.fetchone()
-                    WHERE username = ('{}')'''.format(form.username_search.data))
         if search is None:
-            flash("No users found")
+            flash("No users found.")
             return redirect(url_for('search'))
         return redirect(url_for('search_results', search=search[0],
                                 image=search[1]))
@@ -57,19 +58,19 @@ def submit():
                     WHERE username = ('{}');'''.format(form.username.data))
         un = cur.fetchone()
         if un is None:
-            flash("Username/Password not found")
+            flash("Username/Password not found.")
             return redirect(url_for('submit'))
         cur.execute('''SELECT password_hash FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
         pw = cur.fetchone()
         if form.kills.data > 50 or form.kills.data < 0:
-            flash("Kills is too big or too small")
+            flash("Kills is too big or too small.")
             return redirect(url_for('submit'))
         if form.deaths.data > 10 or form.kills.data < 0:
-            flash("Deaths is too big or too small")
+            flash("Deaths is too big or too small.")
             return redirect(url_for('submit'))
         if form.MMR.data > 15000 or form.kills.data < 0:
-            flash("MMR is too big or too small")
+            flash("MMR is too big or too small.")
             return redirect(url_for('submit'))
         cur.execute('''SELECT id FROM ProfileInformation
                     WHERE username = "{}"'''.format(form.username.data))
@@ -79,9 +80,10 @@ def submit():
                     unid[0], form.kills.data, form.deaths.data,
                     form.MMR.data))
         if un[0] is None or not check_password_hash(pw[0], form.password.data):
-            flash('Invalid username or password')
+            flash('Invalid username or password.')
             return redirect(url_for('submit'))
         conn.commit()
+        flash('Succesfully submited data.')
         return redirect(url_for('home'))
     return render_template('submitdata.html', page_title="Submit Data",
                            form=form)
@@ -93,7 +95,7 @@ def signup():
     cur = conn.cursor()
     form = Signup()
     if form.validate_on_submit():
-        flash('Signup requested for {}'.format(
+        flash('Signup requested for {}.'.format(
               form.username.data))
         cur.execute('''INSERT INTO ProfileInformation (username, password_hash)
                     VALUES ('{}', '{}');'''.format(form.username.data,
@@ -116,4 +118,4 @@ def user(user):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port=8080)
+    app.run(debug=False, host="localhost", port=8080)
