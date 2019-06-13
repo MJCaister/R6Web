@@ -2,5 +2,5 @@
 
 {% block content %}
     <h1>Search Results</h1>
-    <a href='/user/{{search}}'><img href='{{image}}' alt='Profile Image for {{search}}'>{{search}}</a>
+    <a href='/user/{{search}}'><img src='{{image[0]}}' alt='Profile Image for {{search}}'>{{search}}</a>
 {% endblock %}

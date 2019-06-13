@@ -25,15 +25,14 @@ def search():
     cur = conn.cursor()
     form = UserSearch()
     if form.validate_on_submit():
-        cur.execute('''SELECT username, profile_image FROM ProfileInformation
+        cur.execute('''SELECT username FROM ProfileInformation
                     WHERE username = ('{}')'''.format(
                     form.username_search.data))
         search = cur.fetchone()
         if search is None:
             flash("No users found.")
             return redirect(url_for('search'))
-        return redirect(url_for('search_results', search=search[0],
-                                image=search[1]))
+        return redirect(url_for('search_results', search=search[0]))
     return render_template("search.html", page_title="Profile", form=form)
 
 
@@ -96,16 +95,26 @@ def signup():
     cur = conn.cursor()
     form = Signup()
     if form.validate_on_submit():
+        cur.execute('''SELECT username FROM ProfileInformation WHERE
+                    username = '{}' '''.format(form.username.data))
+        user = cur.fetchone()
+        if user is not None:
+            flash("A user with that name already exists, please use another")
+            return redirect(url_for('signup'))
         flash('Signup requested for {}.'.format(form.username.data))
-
         f = form.image.data
         upload = str(form.image.data)
         fext = upload[-21:-17]
         fname = form.username.data + fext
         filename = secure_filename(fname)
-        # file = open((filename), 'w')
-        f.save(os.path.join(app.instance_path, "H:/Programming/R6WEB/static/images/profiles/", filename))
-        cur.execute('''INSERT INTO ProfileInformation (username, password_hash, profile_image) VALUES ('{}', '{}', '{}');'''.format(form.username.data, generate_password_hash(form.password.data), "/static/images/profiles/" + filename))
+        f.save(os.path.join(app.instance_path,
+                            "H:/Programming/R6WEB/static/images/profiles/",
+                            filename))
+        cur.execute('''INSERT INTO ProfileInformation (username, password_hash,
+                    profile_image) VALUES ('{}', '{}', '{}');'''.format(
+                    form.username.data, generate_password_hash(
+                        form.password.data),
+                    "/static/images/profiles/" + filename))
         conn.commit()
         return redirect(url_for('signup'))
     return render_template('signup.html', page_title="Sign Up", form=form)

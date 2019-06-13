@@ -39,7 +39,22 @@ nav a.active {
 }
 
 #user img {
-    border: 1px #000
+    border: solid 1px #000;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}
+
+.flashes {
+    font-weight: bold;
+    color: #dd0;
+    background-color: rgba(10, 10, 10, 0.5);
+    text-decoration: underline;
+    list-style: none;
+    width: 16   0px;
+    padding: none;
 }
 
 span {
