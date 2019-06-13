@@ -1,8 +1,9 @@
 from flask import Flask, render_template, flash, redirect, url_for
 from users import SubmitData, Signup, UserSearch
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 import sqlite3
-
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '/trailing_slashes/'
@@ -95,9 +96,16 @@ def signup():
     cur = conn.cursor()
     form = Signup()
     if form.validate_on_submit():
-        flash('Signup requested for {}.'.format(
-              form.username.data))
-        cur.execute('''INSERT INTO ProfileInformation (username, password_hash, profile_image) VALUES ('{}', '{}', '{}');'''.format(form.username.data, generate_password_hash(form.password.data)))
+        flash('Signup requested for {}.'.format(form.username.data))
+
+        f = form.image.data
+        upload = str(form.image.data)
+        fext = upload[-21:-17]
+        fname = form.username.data + fext
+        filename = secure_filename(fname)
+        # file = open((filename), 'w')
+        f.save(os.path.join(app.instance_path, "H:/Programming/R6WEB/static/images/profiles/", filename))
+        cur.execute('''INSERT INTO ProfileInformation (username, password_hash, profile_image) VALUES ('{}', '{}', '{}');'''.format(form.username.data, generate_password_hash(form.password.data), "/static/images/profiles/" + filename))
         conn.commit()
         return redirect(url_for('signup'))
     return render_template('signup.html', page_title="Sign Up", form=form)
@@ -115,4 +123,4 @@ def user(user):
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="localhost", port=8080)
+    app.run(debug=True, host="localhost", port=8080)
