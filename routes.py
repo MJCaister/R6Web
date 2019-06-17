@@ -58,7 +58,7 @@ def submit():
                     WHERE username = ('{}');'''.format(form.username.data))
         un = cur.fetchone()
         if un is None:
-            flash("Username/Password not found.")
+            flash("Invalid username or password.")
             return redirect(url_for('submit'))
         cur.execute('''SELECT password_hash FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
