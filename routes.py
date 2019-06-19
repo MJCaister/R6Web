@@ -103,6 +103,7 @@ def signup():
             return redirect(url_for('signup'))
         flash('Signup requested for {}.'.format(form.username.data))
         f = form.image.data
+        print(form.image.data)
         upload = str(form.image.data)
         fext = upload[-21:-17]
         fname = form.username.data + fext
