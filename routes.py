@@ -26,13 +26,13 @@ def search():
     form = UserSearch()
     if form.validate_on_submit():
         cur.execute('''SELECT username FROM ProfileInformation
-                    WHERE username = ('{}')'''.format(
+                    WHERE username LIKE ('%{}%')'''.format(
                     form.username_search.data))
-        search = cur.fetchone()
+        search = cur.fetchall()
         if search is None:
             flash("No users found.")
             return redirect(url_for('search'))
-        return redirect(url_for('search_results', search=search[0]))
+        return redirect(url_for('search_results', search=search))
     return render_template("search.html", page_title="Profile", form=form)
 
 
