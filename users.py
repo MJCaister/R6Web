@@ -1,19 +1,29 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, NumberRange, ValidationError
 
 
 class SubmitData(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    kills = IntegerField('Kills', validators=[
-                         DataRequired("Please enter a whole number.")])
-    deaths = IntegerField('Deaths', validators=[
-                          DataRequired("Please enter a whole number.")])
-    MMR = IntegerField('MMR/ELO after game', validators=[
-                       DataRequired("Please enter a whole number.")])
+    kills = FloatField('Kills', validators=[
+                         DataRequired("Please enter a whole number."),
+                         NumberRange(-1, 75)])
+
+    deaths = FloatField('Deaths', validators=[
+                          DataRequired("Please enter a whole number."),
+                          NumberRange(-1, 10)])
+    MMR = FloatField('MMR/ELO after game', validators=[
+                       DataRequired("Please enter a whole number."),
+                       NumberRange(-1, 15000)])
     submit = SubmitField('Submit Data')
+
+
+def integer_check(form, field):
+    data = int(field.data)
+    if data < 0:
+        raise ValidationError('Please enter a number that is 0 or higher')
 
 
 class Signup(FlaskForm):

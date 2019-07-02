@@ -63,15 +63,6 @@ def submit():
         cur.execute('''SELECT password_hash FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
         pw = cur.fetchone()
-        if form.kills.data > 50 or form.kills.data < 0:
-            flash("Kills is too big or too small.")
-            return redirect(url_for('submit'))
-        if form.deaths.data > 10 or form.kills.data < 0:
-            flash("Deaths is too big or too small.")
-            return redirect(url_for('submit'))
-        if form.MMR.data > 15000 or form.kills.data < 0:
-            flash("MMR is too big or too small.")
-            return redirect(url_for('submit'))
         cur.execute('''SELECT id FROM ProfileInformation
                     WHERE username = "{}"'''.format(form.username.data))
         unid = cur.fetchone()
