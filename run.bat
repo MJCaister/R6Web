@@ -1,0 +1,2 @@
+python routes.py
+pause()

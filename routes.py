@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '/trailing_slashes/'
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
     return render_template("home.html", page_title="Home")
 
@@ -36,10 +36,19 @@ def search():
     return render_template("search.html", page_title="Profile", form=form)
 
 
-@app.route('/search_results/<search>')
+@app.route('/search_results/<search>', methods=['GET', 'POST'])
 def search_results(search):
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
+    form = UserSearch()
+    if form.validate_on_submit():
+        cur.execute('''SELECT username FROM ProfileInformation
+                    WHERE username LIKE ('%{}%')'''.format(
+                    form.username_search.data))
+        search = cur.fetchone()
+        if search is None:
+            flash("No users found.")
+            return redirect(url_for('search'))
     cur.execute('''SELECT profile_image FROM ProfileInformation
                 WHERE username = '{}' '''.format(search))
     image = cur.fetchone()
@@ -131,6 +140,12 @@ def page_not_found(e):
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
+
+
+@app.context_processor
+def inject_search():
+    searchform = UserSearch()
+    return dict(searchform=searchform)
 
 
 if __name__ == "__main__":
