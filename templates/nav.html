@@ -1,19 +1,17 @@
 <nav>
     <a href="{{url_for('home')}}">Home</a>
     <a href="{{url_for('leaderboard')}}">Leaderboard</a>
+    <div class="search">
+    <form action="{{url_for('search_results')}}" method="post" novalidate>
+        {{ searchform.hidden_tag() }}
+            {{ searchform.username_search(size=25) }}<br>
+            {% for error in searchform.username_search.errors %}
+            <span>[{{ error }}]</span>
+            {% endfor %}
+    </form>
+    </div>
     <div id="profile">
         <a href="{{url_for('submit')}}">Submit Data</a>
         <a href="{{url_for('signup')}}">Sign Up</a>
-        <a href="{{url_for('search')}}">Profile Search</a>
-        <form action="" method="post" novalidate>
-            {{ searchform.hidden_tag() }}
-            <p>
-                {{ searchform.username_search.label }}<br>
-                {{ searchform.username_search(size=32) }}<br>
-                {% for error in searchform.username_search.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
-        </form>
     </div>
 </nav>

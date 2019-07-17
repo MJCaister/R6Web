@@ -1,11 +1,14 @@
+/* @group wrapper */
 #wrapper {
     padding: 5px;
     font-family: Trebuchet MS;
+    min-width: 691px;
 }
+/* @end wrapper */
 
+/* @group nav */
 nav {
 	width: 100%;
-	position: sticky;
 	top: 0;
 	background-color: rgba(10, 10, 10, 0.5);
 	overflow: hidden;
@@ -38,25 +41,85 @@ nav a.active {
     float: right;
 }
 
+.search {
+    float: right;
+    text-align: center;
+	padding: 10px 8px;
+	text-decoration: none;
+	font-size: 5px;
+	display: block;
+	width: auto;
+    max-height: 48px;
+}
+/* @end nav */
+
+/* @group img */
 #user img {
     border: solid 1px #000;
+    width: 150px;
+    height: 150px;
 }
 
 img {
     width: 100px;
     height: 100px;
 }
+/* @end img */
 
+/* @group flashes */
 .flashes {
     font-weight: bold;
     color: #dd0;
     background-color: rgba(10, 10, 10, 0.5);
     text-decoration: underline;
     list-style: none;
-    width: 16   0px;
+    width: auto;
+    margin: 0px;
     padding: none;
+    margin-top: 1px;
+    text-align: center;
 }
+/* @end flashes */
 
+/* @group forms */
 span {
-
+    color: red;
 }
+
+input[type=text], input[type=password] {
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+/* @end forms */
+
+/* @group table */
+table, tr, td, th {
+    border-collapse: collapse;
+    padding: 0px 3px;
+    color: #dd0;
+}
+
+table {
+    width: 50%;
+    border: 2px solid #222;
+}
+
+th {
+    font-weight: bolder;
+    border-bottom: 1px solid #222;
+    background-color: rgba(10, 10, 10, 0.5);
+}
+
+tr {
+    background-color: #777;
+}
+
+tr:nth-child(even) {
+    background-color: #999;
+}
+
+td {
+	text-align: center;
+    border: 2px solid #333;
+}
+/* @end table */

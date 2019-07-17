@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>Submit Data</h1>
+    <h1>Delete Account</h1>
     <form action="" method="post" novalidate>
-
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
@@ -20,23 +19,9 @@
             {% endfor %}
         </p>
         <p>
-            {{ form.kills.label }}<br>
-            {{ form.kills(size=2) }}<br>
-            {% for error in form.kills.errors %}
-            <span>[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.deaths.label }}<br>
-            {{ form.deaths(size=2) }}<br>
-            {% for error in form.deaths.errors %}
-            <span>[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.MMR.label }}<br>
-            {{ form.MMR(size=4) }}<br>
-            {% for error in form.MMR.errors %}
+            {{ form.delete_check.label }}<br>
+            {{ form.delete_check(size=32) }}<br>
+            {% for error in form.delete_check.errors %}
             <span>[{{ error }}]</span>
             {% endfor %}
         </p>

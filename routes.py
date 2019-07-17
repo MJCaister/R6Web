@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for
-from users import SubmitData, Signup, UserSearch
+from users import SubmitData, Signup, UserSearch, DeleteProfile
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import sqlite3
@@ -19,8 +19,8 @@ def leaderboard():
     return render_template("leaderboard.html", page_title="Leaderboard")
 
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
+@app.route('/search_results', methods=['POST'])
+def search_results():
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
     form = UserSearch()
@@ -31,30 +31,13 @@ def search():
         search = cur.fetchone()
         if search is None:
             flash("No users found.")
-            return redirect(url_for('search'))
-        return redirect(url_for('search_results', search=search[0]))
-    return render_template("search.html", page_title="Profile", form=form)
-
-
-@app.route('/search_results/<search>', methods=['GET', 'POST'])
-def search_results(search):
-    conn = sqlite3.connect('db/r6web.db')
-    cur = conn.cursor()
-    form = UserSearch()
-    if form.validate_on_submit():
-        cur.execute('''SELECT username FROM ProfileInformation
-                    WHERE username LIKE ('%{}%')'''.format(
-                    form.username_search.data))
-        search = cur.fetchone()
-        if search is None:
-            flash("No users found.")
-            return redirect(url_for('search'))
+            return redirect(url_for('home'))
     cur.execute('''SELECT profile_image FROM ProfileInformation
-                WHERE username = '{}' '''.format(search))
+                WHERE username = '{}' '''.format(search[0]))
     image = cur.fetchone()
     return render_template("results.html",
-                           page_title="Search for {}".format(search),
-                           search=search, image=image)
+                           page_title="Search for {}".format(search[0]),
+                           search=search[0], image=image)
 
 
 @app.route('/submit', methods=['GET', 'POST'])
@@ -75,9 +58,16 @@ def submit():
         cur.execute('''SELECT id FROM ProfileInformation
                     WHERE username = "{}"'''.format(form.username.data))
         unid = cur.fetchone()
-        cur.execute('''INSERT INTO SubmitedData (pid, kills, deaths, MMR)
-                    VALUES ('{}', '{}', '{}', '{}');'''.format(
-                    unid[0], form.kills.data, form.deaths.data,
+        kills = form.kills.data
+        deaths = form.deaths.data
+        if deaths == 0:
+            kdr = kills / 1
+        else:
+            kdr = kills / deaths
+            con_kdr = round(kdr, 2)
+        cur.execute('''INSERT INTO SubmitedData (pid, kills, deaths, kdr, MMR)
+                    VALUES ('{}', '{}', '{}', '{}', '{}');'''.format(
+                    unid[0], form.kills.data, form.deaths.data, con_kdr,
                     form.MMR.data))
         if un[0] is None or not check_password_hash(pw[0], form.password.data):
             flash('Invalid username or password.')
@@ -126,10 +116,46 @@ def user(user):
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
     cur.execute('''SELECT profile_image FROM ProfileInformation
-                WHERE username = '{}' '''.format(user))
+                WHERE username = '{}';'''.format(user))
     results = cur.fetchone()
+    cur.execute('''SELECT username, kills, deaths, kdr, MMR
+                FROM SubmitedData AS S INNER JOIN ProfileInformation
+                AS P ON S.pid = P.id WHERE P.username = '{}';'''.format(user))
+    data = cur.fetchall()
+    table = data
     return render_template('user.html', page_title=user, user=user,
-                           results=results)
+                           results=results, table=table)
+
+
+@app.route('/delete', methods=['GET', 'POST'])
+def delete():
+    form = DeleteProfile()
+    conn = sqlite3.connect('db/r6web.db')
+    cur = conn.cursor()
+    if form.validate_on_submit():
+        cur.execute('''SELECT username, password_hash FROM ProfileInformation
+                    WHERE username = ('{}');'''.format(form.username.data))
+        credentials = cur.fetchone()
+        if credentials[0] is None or not check_password_hash(credentials[1],
+                                                             form.password.data
+                                                             ):
+            flash('Invalid username/password or this account has been deleted.'
+                  )
+            return redirect(url_for('delete'))
+        if form.delete_check.data != form.username.data:
+            flash('Incorrect username was provided for the check.')
+            return redirect(url_for('delete'))
+        cur.execute('''DELETE FROM ProfileInformation
+                    WHERE username = '{}';'''.format(form.username.data))
+        cur.execute('''DELETE FROM SubmitedData
+                    WHERE pid in (SELECT  id FROM ProfileInformation
+                    WHERE username = '{}');'''.format(form.username.data))
+        conn.commit()
+        flash('Sucessfully deleted data for user: {}'.format(
+              form.username.data))
+        return redirect(url_for('home'))
+    return render_template('delete.html', page_title="Delete Account",
+                           form=form)
 
 
 @app.errorhandler(404)
@@ -149,4 +175,4 @@ def inject_search():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="localhost", port=8080)
+    app.run(debug=True, host="localhost", port=8080)

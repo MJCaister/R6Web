@@ -1,29 +1,23 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, FloatField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms.validators import DataRequired, NumberRange, ValidationError
+from wtforms.validators import DataRequired, NumberRange, InputRequired
 
 
 class SubmitData(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    kills = FloatField('Kills', validators=[
-                         DataRequired("Please enter a whole number."),
-                         NumberRange(-1, 75)])
+    kills = IntegerField('Kills', validators=[
+                         InputRequired("Please enter a whole number."),
+                         NumberRange(min=0, max=75)])
 
-    deaths = FloatField('Deaths', validators=[
-                          DataRequired("Please enter a whole number."),
-                          NumberRange(-1, 10)])
-    MMR = FloatField('MMR/ELO after game', validators=[
-                       DataRequired("Please enter a whole number."),
-                       NumberRange(-1, 15000)])
+    deaths = IntegerField('Deaths', validators=[
+                          InputRequired("Please enter a whole number."),
+                          NumberRange(min=0, max=10)])
+    MMR = IntegerField('MMR/ELO after game', validators=[
+                       InputRequired("Please enter a whole number."),
+                       NumberRange(min=0, max=15000)])
     submit = SubmitField('Submit Data')
-
-
-def integer_check(form, field):
-    data = int(field.data)
-    if data < 0:
-        raise ValidationError('Please enter a number that is 0 or higher')
 
 
 class Signup(FlaskForm):
@@ -36,6 +30,19 @@ class Signup(FlaskForm):
 
 
 class UserSearch(FlaskForm):
-    username_search = StringField('Search for a player',
-                                  validators=[DataRequired()])
+    username_search = StringField(validators=[DataRequired()],
+                                  render_kw={
+                                  "placeholder": "Search for a user"})
     submit = SubmitField('Search')
+
+
+class DeleteProfile(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    delete_check = StringField('''Are you sure you want to delete your account
+                               and any data attached to it?''',
+                               validators=[DataRequired(
+                                "Please enter your username.")], render_kw={
+                                "placeholder": "Enter your username to confirm"
+                                })
+    submit = SubmitField('Delete Account')

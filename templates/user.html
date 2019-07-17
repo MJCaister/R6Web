@@ -2,7 +2,23 @@
 
 {% block content %}
     <div id="user">
-        <h3>{{user}}'s Profile</h3>
+        <h2>{{user}}'s Profile</h2>
         <img src={{results[0]}} alt="{{user}}'s profile image">
     </div>
+    <h3>{{user}}'s match history</h3>
+    <table>
+        <tr>
+            <th>Kills</th>
+            <th>Deaths</th>
+            <th>K/D</th>
+            <th>ELO/MMR</th>
+        </tr>
+        {% for data in table %}
+        <tr>
+            <td>{{data[1]}}</td>
+            <td>{{data[2]}}</td>
+            <td>{{data[3]}}</td>
+            <td>{{data[4]}}</td>
+        </tr>
+        {% endfor %}
 {% endblock %}
