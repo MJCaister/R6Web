@@ -75,11 +75,22 @@ img {
     list-style: none;
     width: auto;
     margin: 0px;
-    padding: none;
+    padding: 0px;
     margin-top: 1px;
     text-align: center;
 }
+
+.flashes li {
+    padding: 3px;
+}
 /* @end flashes */
+
+/* @group footer */
+footer {
+    text-align: center;
+}
+/* @end footer */
+
 
 /* @group forms */
 span {

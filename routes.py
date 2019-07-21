@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import sqlite3
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, instance_path='C:/Users/nukes/Desktop/Git Desktop/R6Web/')
 app.config['SECRET_KEY'] = '/trailing_slashes/'
 
 
@@ -98,8 +98,7 @@ def signup():
         fext = upload[-21:-17]
         fname = form.username.data + fext
         filename = secure_filename(fname)
-        f.save(os.path.join(app.instance_path,
-                            "H:/Programming/R6WEB/static/images/profiles/",
+        f.save(os.path.join(app.instance_path, "static/images/profiles/",
                             filename))
         cur.execute('''INSERT INTO ProfileInformation (username, password_hash,
                     profile_image) VALUES ('{}', '{}', '{}');'''.format(
