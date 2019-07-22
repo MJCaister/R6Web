@@ -60,8 +60,10 @@ def submit():
         unid = cur.fetchone()
         kills = form.kills.data
         deaths = form.deaths.data
+        con_kdr = None
         if deaths == 0:
-            kdr = kills / 1
+            kdr = kills
+            con_kdr = kdr
         else:
             kdr = kills / deaths
             con_kdr = round(kdr, 2)

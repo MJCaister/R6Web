@@ -3,4 +3,19 @@
 {% block content %}
     <h1>Search Results</h1>
     <a href='/user/{{search}}'><img src='{{image[0]}}' alt='Profile Image for {{search}}'>{{search}}</a>
+
+    <table id="search_table">
+        <tr>
+            <th>Image</th>
+            <th>Username</th>
+            <th>Rank</th>
+        </tr>
+        <a href='/user/{{search}}'>
+            <tr>
+                <td><img src='{{image[0]}}' alt='Profile Image for {{search}}'></td>
+                <td>{{search}}</td>
+                <td>Rank</td>
+            </tr>
+        </a>
+    </table>
 {% endblock %}
