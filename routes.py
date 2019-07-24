@@ -5,6 +5,9 @@ from werkzeug.utils import secure_filename
 import sqlite3
 import os
 
+
+
+
 app = Flask(__name__, instance_path='H:/Programming/R6WEB/')
 app.config['SECRET_KEY'] = '/trailing_slashes/'
 

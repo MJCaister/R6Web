@@ -10,12 +10,10 @@
             <th>Username</th>
             <th>Rank</th>
         </tr>
-        <a href='/user/{{search}}'>
-            <tr>
+            <tr href='/user/{{search}}'>
                 <td><img src='{{image[0]}}' alt='Profile Image for {{search}}'></td>
                 <td>{{search}}</td>
                 <td>Rank</td>
             </tr>
-        </a>
     </table>
 {% endblock %}
