@@ -5,13 +5,35 @@ from werkzeug.utils import secure_filename
 import sqlite3
 import os
 
+# Different File System Management
+school_dir = False
+instancepath = None
+development_build = True
 
+if development_build is True:
+    if school_dir is True:
+        instancepath = "H:/Programming/R6WEB/"
+    else:
+        instancepath = "C:/Users/nukes/Desktop/Git Desktop/R6Web/"
+else:
+    print()  # TODO: Add in Live Build directory
+# End of File System Management
 
-
-app = Flask(__name__, instance_path='H:/Programming/R6WEB/')
+# Flask Config
+app = Flask(__name__, instance_path=instancepath)
 app.config['SECRET_KEY'] = '/trailing_slashes/'
 
+if development_build is True:
+    print("\n")
+    print("INSTANCE PATH: {}".format(app.instance_path))
+    print("\n")
+else:
+    print("\n")
+    print("RUNNING ON LIVE DIRECTORY")
+    print("\n")
+# End of Flask Config
 
+# Start of Flask Routes
 @app.route('/', methods=['GET', 'POST'])
 def home():
     return render_template("home.html", page_title="Home")
@@ -27,20 +49,18 @@ def search_results():
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
     form = UserSearch()
+    search = None
     if form.validate_on_submit():
-        cur.execute('''SELECT username FROM ProfileInformation
+        cur.execute('''SELECT username, profile_image FROM ProfileInformation
                     WHERE username LIKE ('%{}%')'''.format(
                     form.username_search.data))
-        search = cur.fetchone()
+        search = cur.fetchall()
         if search is None:
             flash("No users found.")
             return redirect(url_for('home'))
-    cur.execute('''SELECT profile_image FROM ProfileInformation
-                WHERE username = '{}' '''.format(search[0]))
-    image = cur.fetchone()
     return render_template("results.html",
-                           page_title="Search for {}".format(search[0]),
-                           search=search[0], image=image)
+                           page_title="User Search for {}".format(
+                            form.username_search.data), search=search)
 
 
 @app.route('/submit', methods=['GET', 'POST'])

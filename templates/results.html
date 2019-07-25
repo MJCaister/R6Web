@@ -1,22 +1,19 @@
 {% extends "layout.html" %}
-{% for search in user %}
-<meta id="kdot" data-playlist="{{search}}">
-{% endfor %}
-{% block content %}
-    <script type="text/javascript" href="/static/js/tr$clickable.js"></script>
-    <h1>Search Results</h1>
-    <a href='/user/{{search}}'><img src='{{image[0]}}' alt='Profile Image for {{search}}'>{{search}}</a>
 
+{% block content %}
+    <h1>Search Results</h1>
     <table id="search_table">
         <tr>
             <th>Image</th>
             <th>Username</th>
             <th>Rank</th>
         </tr>
-            <tr href='/user/{{search}}'>
-                <td><img src='{{image[0]}}' alt='Profile Image for {{search}}'></td>
-                <td>{{search}}</td>
+        {% for data in search %}
+            <tr class="search_row">
+                <td><a href='/user/{{data[0]}}'><img src='{{data[1]}}' alt='Profile Image for {{data[0]}}'></a></td>
+                <td><a href='/user/{{data[0]}}'>{{data[0]}}</a></td>
                 <td>Rank</td>
             </tr>
+        {% endfor %}
     </table>
 {% endblock %}
