@@ -19,6 +19,13 @@
             {% endfor %}
         </p>
         <p>
+            {{ form.password_confirm.label }}<br>
+            {{ form.password_confirm(size=32) }}<br>
+            {% for error in form.password_confirm.errors %}
+            <span>[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
             {{ form.image.label }}<br>
             {{ form.image }}<br>
             {% for error in form.image.errors %}

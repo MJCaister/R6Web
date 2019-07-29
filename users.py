@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms.validators import DataRequired, NumberRange, InputRequired
+from wtforms.validators import EqualTo
 
 
 class SubmitData(FlaskForm):
@@ -23,6 +24,11 @@ class SubmitData(FlaskForm):
 class Signup(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+    password_confirm = PasswordField('Confirm Password', validators=[
+                                    DataRequired(), EqualTo(
+                                        'password',
+                                        message='Passwords must match.'
+                                    )])
     image = FileField('Profile Image [.jpg, .png]', validators=[
                       FileRequired('Please upload a profile image'),
                       FileAllowed(['jpg', 'png'], '.jpg or .png only!')])
