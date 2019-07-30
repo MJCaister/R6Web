@@ -6,7 +6,7 @@ import sqlite3
 import os
 
 # Different File System Management
-school_dir = False
+school_dir = True
 instancepath = None
 development_build = True
 
@@ -199,4 +199,4 @@ def inject_search():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port=8080)
+    app.run(debug=False, host="localhost", port=8080)

@@ -3,9 +3,17 @@
     padding: 5px;
     font-family: Trebuchet MS;
     min-width: 691px;
-    background-color: #bbb;
+    background-color: #ccc;
 }
 /* @end wrapper */
+
+#content {
+    margin-top: 5px;
+    margin: auto;
+    padding: 5px;
+    width: 95%;
+    background-color: #bbb;
+}
 
 /* @group nav */
 nav {
@@ -119,15 +127,15 @@ table a {
     color: #dd0;
 }
 
-th {
+th{
     font-weight: bolder;
     border-bottom: 2px solid #222;
     border-top: 2px solid #222;
-    background-color: rgba(10, 10, 10, 0.5);
+    background-color: #111 !important;
 }
 
 tr {
-    background-color: #777;
+    background-color: #404850FF;
 }
 
 tr:nth-child(even) {
