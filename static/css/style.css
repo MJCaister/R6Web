@@ -9,10 +9,11 @@
 
 #content {
     margin-top: 5px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     padding: 5px;
     width: 95%;
-    background-color: #bbb;
+    text-align: center;
 }
 
 /* @group nav */

@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import sqlite3
 import os
 
-# Different File System Management
+# Start of Different File System Management
 school_dir = True
 instancepath = None
 development_build = True
@@ -16,7 +16,7 @@ if development_build is True:
     else:
         instancepath = "C:/Users/nukes/Desktop/Git Desktop/R6Web/"
 else:
-    print()  # TODO: Add in Live Build directory
+    print()
 # End of File System Management
 
 # Flask Config
@@ -32,6 +32,7 @@ else:
     print("RUNNING ON LIVE DIRECTORY")
     print("\n")
 # End of Flask Config
+
 
 # Start of Flask Routes
 @app.route('/', methods=['GET', 'POST'])
@@ -55,7 +56,7 @@ def search_results():
                     WHERE username LIKE ('%{}%')'''.format(
                     form.username_search.data))
         search = cur.fetchall()
-        if search is None:
+        if not len(search) > 0:
             flash("No users found.")
             return redirect(url_for('home'))
     return render_template("results.html",
@@ -199,4 +200,4 @@ def inject_search():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="localhost", port=8080)
+    app.run(debug=True, host="localhost", port=8080)

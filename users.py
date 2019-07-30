@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms.validators import DataRequired, NumberRange, InputRequired
-from wtforms.validators import EqualTo
+from wtforms.validators import (DataRequired, NumberRange, InputRequired,
+                                EqualTo)
 
 
 class SubmitData(FlaskForm):

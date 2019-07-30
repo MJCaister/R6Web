@@ -9,16 +9,16 @@
         <div id="wrapper">
             {% include "header.html" %}
             {% include "nav.html" %}
-            <div id="content">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <ul class=flashes>
-                    {% for message in messages %}
-                    <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-                {% endwith %}
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+            <div id="content">    
                 {% block content %}
                 {% endblock %}
             </div>
