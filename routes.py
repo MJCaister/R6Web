@@ -170,11 +170,20 @@ def delete():
         if form.delete_check.data != form.username.data:
             flash('Incorrect username was provided for the check.')
             return redirect(url_for('delete'))
+        cur.execute('''SELECT profile_image FROM ProfileInformation WHERE
+                    username = '{}';'''.format(form.username.data))
+        imageLoc = cur.fetchone()
+        try:
+            os.remove(app.instance_path + imageLoc[0])
+        except OSError as e:
+            print(e)
+        cur.execute('''SELECT id FROM ProfileInformation WHERE
+                    username = ('{}');'''.format(form.username.data))
+        uid = cur.fetchone()
         cur.execute('''DELETE FROM ProfileInformation
                     WHERE username = '{}';'''.format(form.username.data))
-        cur.execute('''DELETE FROM SubmitedData
-                    WHERE pid in (SELECT  id FROM ProfileInformation
-                    WHERE username = '{}');'''.format(form.username.data))
+        cur.execute('''DELETE FROM SubmitedData WHERE
+                    pid = {};'''.format(uid[0]))
         conn.commit()
         flash('Sucessfully deleted data for user: {}'.format(
               form.username.data))

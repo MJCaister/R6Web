@@ -176,6 +176,10 @@ td {
     width: 30%
 }
 
+#leaderboard {
+    width: 60%;
+}
+
 #search_table td{
     padding: 3px 3px 0px 3px;
 }
