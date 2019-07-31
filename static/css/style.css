@@ -64,11 +64,6 @@ nav a.active {
 /* @end nav */
 
 /* @group img */
-#user img {
-    border: solid 1px #000;
-    width: 150px;
-    height: 150px;
-}
 
 img {
     width: 100px;
@@ -76,6 +71,28 @@ img {
 }
 /* @end img */
 
+/* @group user */
+
+/* @end user */
+#user img {
+    border: solid 1px #000;
+    width: 150px;
+    height: 150px;
+}
+
+#user{
+    float: left;
+    margin-left: 35%;
+    margin-top: 10%;
+}
+
+.match_history {
+    float: left;
+    margin-left: 5%;
+    margin-top: 10%;
+    height: 150px;
+    overflow-y: scroll;
+}
 /* @group flashes */
 .flashes {
     font-weight: bold;
@@ -98,6 +115,7 @@ img {
 /* @group footer */
 footer {
     text-align: center;
+    margin-top: 30%;
 }
 /* @end footer */
 
@@ -136,7 +154,7 @@ th{
 }
 
 tr {
-    background-color: #404850FF;
+    background-color: #404850c8;
 }
 
 tr:nth-child(even) {
@@ -149,7 +167,7 @@ td {
 }
 
 #user_stats {
-    width: 50%;
+    width: 40%;
     align-content: center;
 }
 

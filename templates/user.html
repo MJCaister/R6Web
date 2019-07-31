@@ -5,8 +5,9 @@
         <h2>{{user}}'s Profile</h2>
         <img src={{results[0]}} alt="{{user}}'s profile image">
     </div>
+    <div class="match_history">
     <h3>{{user}}'s match history</h3>
-    <table id="user_stats">
+    <table id="user_stats" align=center>
         <tr>
             <th>Kills</th>
             <th>Deaths</th>
@@ -22,4 +23,5 @@
         </tr>
         {% endfor %}
     </table>
+    </div>
 {% endblock %}
