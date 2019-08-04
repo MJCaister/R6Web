@@ -90,9 +90,7 @@ def submit():
             con_kdr = kdr
         else:
             kdr = kills / deaths
-            print(kdr)
             con_kdr = round(kdr, 2)
-            print(con_kdr)
         cur.execute('''INSERT INTO SubmitedData (pid, kills, deaths, kdr, MMR)
                     VALUES ('{}', '{}', '{}', '{}', '{}');'''.format(
                     unid[0], form.kills.data, form.deaths.data, con_kdr,
