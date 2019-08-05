@@ -80,7 +80,7 @@ img {
     height: 150px;
 }
 
-#user{
+#user {
     float: left;
     margin-left: 35%;
     margin-top: 10%;
@@ -90,9 +90,13 @@ img {
     float: left;
     margin-left: 5%;
     margin-top: 10%;
-    height: 150px;
-    overflow-y: scroll;
 }
+
+.match_table {
+    overflow-y: scroll;
+    height: 150px;
+}
+
 /* @group flashes */
 .flashes {
     font-weight: bold;
@@ -151,6 +155,8 @@ th{
     border-bottom: 2px solid #222;
     border-top: 2px solid #222;
     background-color: #111 !important;
+    position: sticky;
+    top: 0;
 }
 
 tr {

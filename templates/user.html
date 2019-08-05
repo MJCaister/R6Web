@@ -6,22 +6,24 @@
         <img src={{results[0]}} alt="{{user}}'s profile image">
     </div>
     <div class="match_history">
-    <h3>{{user}}'s match history</h3>
-    <table id="user_stats" align=center>
-        <tr>
-            <th>Kills</th>
-            <th>Deaths</th>
-            <th>K/D</th>
-            <th>ELO/MMR</th>
-        </tr>
-        {% for data in table %}
-        <tr>
-            <td>{{data[1]}}</td>
-            <td>{{data[2]}}</td>
-            <td>{{data[3]}}</td>
-            <td>{{data[4]}}</td>
-        </tr>
-        {% endfor %}
-    </table>
+        <h3>{{user}}'s match history</h3>
+        <div class="match_table">
+        <table id="user_stats" align=center>
+            <tr>
+                <th>Kills</th>
+                <th>Deaths</th>
+                <th>K/D</th>
+                <th>ELO/MMR</th>
+            </tr>
+            {% for data in table %}
+            <tr>
+                <td>{{data[1]}}</td>
+                <td>{{data[2]}}</td>
+                <td>{{data[3]}}</td>
+                <td>{{data[4]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
     </div>
 {% endblock %}
