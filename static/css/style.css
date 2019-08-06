@@ -20,9 +20,10 @@
 nav {
 	width: 100%;
 	top: 0;
-	background-color: rgba(10, 10, 10, 0.5);
+	background-color: #6b6b6b;
 	overflow: hidden;
-    opacity: 50%;
+    opacity: 50;
+	position: sticky;
 }
 
 nav a {
@@ -156,7 +157,7 @@ th{
     border-top: 2px solid #222;
     background-color: #111 !important;
     position: sticky;
-    top: 0;
+    top: 50px;
 }
 
 tr {
