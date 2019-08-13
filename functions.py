@@ -1,8 +1,10 @@
 import sqlite3
 
 
+sorted = {}
+
+
 def dictionary(id, mmr):
-    sorted = {}
     sorted.update({id: mmr})
     print("sorted")
     print(sorted)
@@ -37,3 +39,14 @@ for player in results:
     print("mmr")
 
     dictionary(player[0], mmr[0])
+
+placeslst = list(sorted)
+place = {}
+
+for player in sorted:
+    print('key: {}, index: {}'.format(player, placeslst.index(player)+1))
+    place.update({player: placeslst.index(player)+1})
+    print(place)
+
+for player in results:
+    print("Place: {}".format(place[player]))

@@ -156,8 +156,6 @@ th{
     border-bottom: 2px solid #222;
     border-top: 2px solid #222;
     background-color: #111 !important;
-    position: sticky;
-    top: 50px;
 }
 
 tr {
@@ -178,9 +176,13 @@ td {
     align-content: center;
 }
 
+#user_stats {
+
+}
+
 #search_table {
     align-content: center;
-    width: 30%
+    width: 30%;
 }
 
 #leaderboard {
@@ -193,6 +195,16 @@ td {
 
 #search_table a {
     text-decoration: underline;
+}
+
+#search_table th {
+    top: 49px;
+    position: sticky;
+}
+
+.match_table th {
+    top: -1px;
+    position: sticky;
 }
 
 .search_row {
