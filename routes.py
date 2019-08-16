@@ -51,6 +51,8 @@ def search_results():
     cur = conn.cursor()
     form = UserSearch()
     search = None
+    if form.username_search.data is None:
+        flash("No users found.")
     if form.validate_on_submit():
         cur.execute('''SELECT username, profile_image FROM ProfileInformation
                     WHERE username LIKE ('%{}%')'''.format(
@@ -209,4 +211,4 @@ def inject_search():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port=8080)
+    app.run(debug=False, host="localhost", port=8080)
