@@ -42,6 +42,7 @@ def home():
 
 @app.route('/leaderboard')
 def leaderboard():
+
     return render_template("leaderboard.html", page_title="Leaderboard")
 
 
