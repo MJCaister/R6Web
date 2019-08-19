@@ -1,11 +1,13 @@
 import sqlite3
 
 
-class Leaderboard(a):
+def Leaderboard():
     sorted = {}
+    mmr_list = []
 
     def dictionary(id, mmr):
         sorted.update({id: mmr})
+        mmr_list.append(mmr)
         print("sorted")
         print(sorted)
 
@@ -47,4 +49,15 @@ class Leaderboard(a):
         print(place)
 
     tupList = list(place.items())
+    finalDict = {}
+    finalList = {}
     print(tupList)
+    for player in tupList:
+        print("Posistion: {} | Player : {} | Player ELO: {}".format(player[1], player[0], mmr_list[tupList.index(player)]))
+        finalDict.update(player[1]: player[0], mmr_list[tupList.index(player)]: mmr_list[tupList.index(player)])
+
+
+finalList = list(finalDict.items())
+
+
+Leaderboard()
