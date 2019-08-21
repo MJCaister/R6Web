@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import sqlite3
 import os
+import functions
 
 # Start of Different File System Management
 school_dir = True

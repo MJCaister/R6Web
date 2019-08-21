@@ -22,7 +22,7 @@ def Leaderboard():
                                                                     player[0]))
         results = cur.fetchall()
         if len(results) == 0:
-            break
+            continue
         print(results)
         id_list = []
         for result in results:
@@ -54,10 +54,6 @@ def Leaderboard():
     print(tupList)
     for player in tupList:
         print("Posistion: {} | Player : {} | Player ELO: {}".format(player[1], player[0], mmr_list[tupList.index(player)]))
-        finalDict.update(player[1]: player[0], mmr_list[tupList.index(player)]: mmr_list[tupList.index(player)])
+        finalDict.update({player[1]: player[0], mmr_list[tupList.index(player)]: mmr_list[tupList.index(player)]})
 
-
-finalList = list(finalDict.items())
-
-
-Leaderboard()
+    finalList = list(finalDict.items())
