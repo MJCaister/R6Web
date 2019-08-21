@@ -53,7 +53,17 @@ def Leaderboard():
     finalList = {}
     print(tupList)
     for player in tupList:
-        print("Posistion: {} | Player : {} | Player ELO: {}".format(player[1], player[0], mmr_list[tupList.index(player)]))
-        finalDict.update({player[1]: player[0], mmr_list[tupList.index(player)]: mmr_list[tupList.index(player)]})
-
+        print("Posistion: {} | Player : {} | Player ELO: {}".format(player[1],
+                                                                    player[0],
+                                                                    mmr_list[
+                                                       tupList.index(player)]))
+        finalDict.update({player[1]: player[0], mmr_list[
+                    tupList.index(player)]: mmr_list[tupList.index(player)]})
+    print(finalDict)
     finalList = list(finalDict.items())
+    print(finalList)
+    print(finalList[0])
+    print(finalList[1])
+
+
+Leaderboard()
