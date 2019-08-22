@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def Leaderboard():
+def leaderboard_sort():
     sorted = {}
     mmr_list = []
 
@@ -49,21 +49,19 @@ def Leaderboard():
         print(place)
 
     tupList = list(place.items())
-    finalDict = {}
-    finalList = {}
+    finalList = []
     print(tupList)
     for player in tupList:
+        cur.execute('''SELECT username FROM ProfileInformation WHERE id={}'''.format(player[0]))
+        name = cur.fetchone()
+        user = {'Rank': player[1], 'Name': name[0], 'MMR': mmr_list[tupList.index(player)]}
         print("Posistion: {} | Player : {} | Player ELO: {}".format(player[1],
                                                                     player[0],
                                                                     mmr_list[
                                                        tupList.index(player)]))
-        finalDict.update({player[1]: player[0], mmr_list[
-                    tupList.index(player)]: mmr_list[tupList.index(player)]})
-    print(finalDict)
-    finalList = list(finalDict.items())
+        finalList.append(user)
+
     print(finalList)
-    print(finalList[0])
-    print(finalList[1])
+    return finalList
 
-
-Leaderboard()
+# leaderboard()  # AUTO RUN

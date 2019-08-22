@@ -10,13 +10,15 @@
         <th>KDR</th>
         <th>ELO</th>
     </tr>
+    {% for player in list %}
     <tr>
-        <td>autorank</td>
-        <td>username</td>
+        <td>{{player.Rank}}</td>
+        <td>{{player.Name}}</td>
         <td>k</td>
         <td>d</td>
         <td>kdr</td>
-        <td>elo</td>
+        <td>{{player.MMR}}</td>
     </tr>
+    {% endfor %}
 </table>
 {% endblock %}

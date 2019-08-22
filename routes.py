@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import sqlite3
 import os
-import functions
+from functions import leaderboard_sort
 
 # Start of Different File System Management
 school_dir = True
@@ -43,8 +43,9 @@ def home():
 
 @app.route('/leaderboard')
 def leaderboard():
-
-    return render_template("leaderboard.html", page_title="Leaderboard")
+    list = leaderboard_sort()
+    return render_template("leaderboard.html", page_title="Leaderboard",
+                           list=list)
 
 
 @app.route('/search_results', methods=['POST'])
