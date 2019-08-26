@@ -57,10 +57,14 @@ def search_results():
     if form.username_search.data is None:
         flash("No users found.")
     if form.validate_on_submit():
-        cur.execute('''SELECT username, profile_image FROM ProfileInformation
-                    WHERE username LIKE ('%{}%')'''.format(
-                    form.username_search.data))
-        search = cur.fetchall()
+        try:
+            cur.execute('''SELECT username, profile_image FROM ProfileInformation
+                        WHERE username LIKE ('%{}%')'''.format(
+                        form.username_search.data))
+            search = cur.fetchall()
+        except TypeError:
+            flash("No users found.")
+            return redirect(url_for('home'))
         if not len(search) > 0:
             flash("No users found.")
             return redirect(url_for('home'))
@@ -214,4 +218,4 @@ def inject_search():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="localhost", port=8080)
+    app.run(debug=True, host="localhost", port=8080)

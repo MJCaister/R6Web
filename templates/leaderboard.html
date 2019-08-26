@@ -5,19 +5,13 @@
     <tr>
         <th>Rank</th>
         <th>Username</th>
-        <th>Kills</th>
-        <th>Deaths</th>
-        <th>KDR</th>
         <th>ELO</th>
     </tr>
     {% for player in list %}
     <tr>
-        <td>{{player.Rank}}</td>
-        <td>{{player.Name}}</td>
-        <td>k</td>
-        <td>d</td>
-        <td>kdr</td>
-        <td>{{player.MMR}}</td>
+        <a href="/user/{{player.Name}}"><td>{{player.Rank}}</td></a>
+        <a href="/user/{{player.Name}}"><td>{{player.Name}}</td></a>
+        <a href="/user/{{player.Name}}"><td>{{player.MMR}}</td></a>
     </tr>
     {% endfor %}
 </table>
