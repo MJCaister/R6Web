@@ -8,27 +8,34 @@ def leaderboard_sort():
     def dictionary(id, mmr):
         sorted.update({id: mmr})
         mmr_list.append(mmr)
+        print("Sorted: {}".format(sorted))
+        print("MMRList: {}".format(mmr_list))
 
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
     # Credit: Bob for helping with queries
     cur.execute('''SELECT id FROM ProfileInformation;''')
     results = cur.fetchall()
+    print("ID's: {}".format(results))
     for player in results:
         cur.execute('''SELECT id FROM SubmitedData WHERE pid = {}'''.format(
                                                                     player[0]))
         results = cur.fetchall()
+        print("ID: {} | IDs: {}".format(player[0], results))
         if len(results) == 0:
             continue
         id_list = []
         for result in results:
             id_list.append(result[0])
+            print("IDList: {}".format(id_list))
         id_list.sort()
+        print("IDListSorted: {}".format(id_list))
         latest_id = id_list[len(id_list) - 1]
+        print("LatestId: {}".format(latest_id))
         cur.execute('''SELECT MMR FROM SubmitedData WHERE id = {}'''.format(
                                                                     latest_id))
         mmr = cur.fetchone()
-
+        print("Player: {} | MMR: {}".format(player[0], mmr))
         dictionary(player[0], mmr[0])
 
     placeslst = list(sorted)
@@ -36,9 +43,9 @@ def leaderboard_sort():
 
     for player in sorted:
         place.update({player: len(sorted)-placeslst.index(player)})
-
+    print("Place:".format(place))
     tupList = list(place.items())
-    print(tupList)
+    print("TupList: {}".format(tupList))
     finalList = []
     for player in tupList:
         cur.execute('''SELECT username FROM ProfileInformation
@@ -47,8 +54,9 @@ def leaderboard_sort():
         user = {'Rank': player[1], 'Name': name[0],
                 'MMR': mmr_list[tupList.index(player)]}
         finalList.append(user)
-    print(finalList)
+        print("User: {}".format(user))
+    print("FinalList: {}".format(finalList))
     return finalList
 
 
-# leaderboard()  # AUTO RUN
+leaderboard_sort()  # AUTO RUN
