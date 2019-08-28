@@ -3,13 +3,10 @@ import sqlite3
 
 def leaderboard_sort():
     sorted = {}
-    mmr_list = []
 
     def dictionary(id, mmr):
         sorted.update({id: mmr})
-        mmr_list.append(mmr)
         print("Sorted: {}".format(sorted))
-        print("MMRList: {}".format(mmr_list))
 
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
@@ -37,13 +34,13 @@ def leaderboard_sort():
         mmr = cur.fetchone()
         print("Player: {} | MMR: {}".format(player[0], mmr))
         dictionary(player[0], mmr[0])
-
     placeslst = list(sorted)
+    print("PLACELIST: {}".format(placeslst))
     place = {}
 
     for player in sorted:
-        place.update({player: len(sorted)-placeslst.index(player)})
-    print("Place:".format(place))
+        place.update({player: placeslst.index(player)+1})
+    print("Place: {}".format(place))
     tupList = list(place.items())
     print("TupList: {}".format(tupList))
     finalList = []
@@ -52,7 +49,7 @@ def leaderboard_sort():
                     WHERE id={}'''.format(player[0]))
         name = cur.fetchone()
         user = {'Rank': player[1], 'Name': name[0],
-                'MMR': mmr_list[tupList.index(player)]}
+                'MMR': sorted[player[0]]}
         finalList.append(user)
         print("User: {}".format(user))
     print("FinalList: {}".format(finalList))
