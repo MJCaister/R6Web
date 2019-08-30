@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import sqlite3
 import os
-from functions import leaderboard_sort
+from leaderboard import leaderboard_sort
 
 # Start of Different File System Management
 school_dir = True
@@ -50,13 +50,18 @@ def leaderboard():
 
 @app.route('/search_results', methods=['POST'])
 def search_results():
+    print("START OF SEARCH")
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
     form = UserSearch()
-    search = None
-    if form.username_search.data is None:
+    search = {}
+    if search is None:
         flash("No users found.")
+        return redirect(url_for('home'))
     if form.validate_on_submit():
+        print("Search: {}".format(form.username_search.data))
+        if form.username_search.data is None:
+            flash("No users found.")
         try:
             cur.execute('''SELECT username, profile_image FROM ProfileInformation
                         WHERE username LIKE ('%{}%')'''.format(
@@ -68,9 +73,11 @@ def search_results():
         if not len(search) > 0:
             flash("No users found.")
             return redirect(url_for('home'))
-    return render_template("results.html",
-                           page_title="User Search for {}".format(
-                            form.username_search.data), search=search)
+        return render_template("results.html",
+                               page_title="User Search for {}".format(
+                                form.username_search.data), search=search)
+    flash("No Results Found.")
+    return render_template("results.html", page_title="No Results Found")
 
 
 @app.route('/submit', methods=['GET', 'POST'])
