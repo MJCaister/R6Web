@@ -10,9 +10,9 @@ def leaderboard_sort():
                 ORDER BY SubmitedData.MMR DESC''')
     results = cur.fetchall()
     print(results)
-    
-    for player in results:
 
+    for player in results:
+        # aa
 
 
 leaderboard_sort()  # AUTO RUN
