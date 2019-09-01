@@ -6,6 +6,7 @@ import sqlite3
 import os
 from leaderboard import leaderboard_sort
 
+# File System Management is used to set the file location of
 # Start of Different File System Management
 school_dir = True
 instancepath = None
@@ -50,7 +51,6 @@ def leaderboard():
 
 @app.route('/search_results', methods=['POST'])
 def search_results():
-    print("START OF SEARCH")
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
     form = UserSearch()
@@ -59,7 +59,6 @@ def search_results():
         flash("No users found.")
         return redirect(url_for('home'))
     if form.validate_on_submit():
-        print("Search: {}".format(form.username_search.data))
         if form.username_search.data is None:
             flash("No users found.")
         try:
@@ -135,7 +134,6 @@ def signup():
             return redirect(url_for('signup'))
         flash('Signup requested for {}.'.format(form.username.data))
         f = form.image.data
-        print(form.image.data)
         upload = str(form.image.data)
         fext = upload[-21:-17]
         fname = form.username.data + fext
@@ -177,11 +175,11 @@ def delete():
         cur.execute('''SELECT username, password_hash FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
         credentials = cur.fetchone()
-        if credentials[0] is None or not check_password_hash(credentials[1],
-                                                             form.password.data
-                                                             ):
-            flash('Invalid username/password or this account has been deleted.'
-                  )
+        if credentials is None or not check_password_hash(credentials[1],
+                                                          form.password.data
+                                                          ):
+            flash('''Invalid username/password or this account
+                  has already been deleted.''')
             return redirect(url_for('delete'))
         if form.delete_check.data != form.username.data:
             flash('Incorrect username was provided for the check.')

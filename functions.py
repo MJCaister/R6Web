@@ -1,4 +1,4 @@
-import sqlite3
+'''import sqlite3
 
 
 def leaderboard_sort():
@@ -57,3 +57,4 @@ def leaderboard_sort():
 
 
 leaderboard_sort()  # AUTO RUN
+'''  # This is all useless refer to leaderboard.py

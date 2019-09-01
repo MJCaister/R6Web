@@ -1,4 +1,6 @@
 /* @group wrapper */
+/* Wrapper contains the contents of the website */
+
 #wrapper {
     padding: 5px;
     font-family: Trebuchet MS;
@@ -6,6 +8,7 @@
     background-color: #ccc;
 }
 /* @end wrapper */
+/* Content contains the layout of the website    */
 
 #content {
     margin-top: 5px;
@@ -17,6 +20,8 @@
 }
 
 /* @group nav */
+/* Nav  */
+
 nav {
 	width: 100%;
 	top: 0;
