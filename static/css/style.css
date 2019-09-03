@@ -43,6 +43,17 @@ nav a {
 	width: auto;
 }
 
+#navLogo {
+    padding: 0px !important;
+    height: 48px;
+    width: 127.78px;
+}
+
+#navLogo img {
+    height: 48px !important;
+    width: 127.78px !important;
+}
+
 nav a:hover {
 	background-color: rgba(251, 197, 3, 0.5);
 	color: #0A0A0A;
