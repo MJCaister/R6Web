@@ -51,7 +51,11 @@ nav a {
 
 #navLogo img {
     height: 48px !important;
-    width: 127.78px !important;
+    width: 120.78px !important;
+}
+
+#navLogo a:hover {
+	background-color: #6b6b6b !important;
 }
 
 nav a:hover {
