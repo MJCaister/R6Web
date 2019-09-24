@@ -8,7 +8,7 @@ from leaderboard import leaderboard_sort
 
 # File System Management is used to set the file location of
 # Start of Different File System Management
-school_dir = True
+school_dir = False
 instancepath = None
 development_build = True
 
@@ -18,13 +18,14 @@ if development_build is True:
     else:
         instancepath = "C:/Users/nukes/Desktop/Git Desktop/R6Web/"
 else:
-    print()
+    print()  # File location for live build file system
 # End of File System Management
 
 # Flask Config
-app = Flask(__name__, instance_path=instancepath)
-app.config['SECRET_KEY'] = '/trailing_slashes/'
+app = Flask(__name__, instance_path=instancepath)  # sets the variable app with the Flask function to set the instance path
+app.config['SECRET_KEY'] = '/trailing_slashes/'  # Sets the secret key of the flaskapp
 
+# Checks if the flaskapp is running inside of development mode to then show the directory
 if development_build is True:
     print("\n")
     print("INSTANCE PATH: {}".format(app.instance_path))
@@ -37,46 +38,43 @@ else:
 
 
 # Start of Flask Routes
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])  # Creates a route for the flaskapp for the home route
 def home():
-    return render_template("home.html", page_title="Home")
+    return render_template("home.html", page_title="Home")  # reture the render template function to the user so that they can see the html file, and add the title Home to the tab
 
 
 @app.route('/leaderboard')
 def leaderboard():
-    list = leaderboard_sort()
+    list = leaderboard_sort()  # assigns the returned value from the imported function leaderboard_sort
     return render_template("leaderboard.html", page_title="Leaderboard",
-                           list=list)
+                           list=list)  # adds the variable to the page for jinja2 templating
 
 
-@app.route('/search_results', methods=['POST'])
+@app.route('/search_results', methods=['POST'])  # POST method for form submissions
 def search_results():
-    conn = sqlite3.connect('db/r6web.db')
-    cur = conn.cursor()
-    form = UserSearch()
-    search = {}
-    if search is None:
-        flash("No users found.")
-        return redirect(url_for('home'))
-    if form.validate_on_submit():
-        if form.username_search.data is None:
-            flash("No users found.")
+    conn = sqlite3.connect('db/r6web.db')  # connects to the database file
+    cur = conn.cursor()  # assigns the connections cursor
+    form = UserSearch()  # assigns the data from the forms class
+    search = {}  # empty tuple
+    search_raw = form.username_search.data  # assigns the users search to the variable
+    if form.validate_on_submit():  # Checks if the form was submitted
+        if form.username_search.data is None:  # Checks if the user searched for nothing
+            flash("No users found.")  # Sends a flash message to the user
         try:
-            cur.execute('''SELECT username, profile_image FROM ProfileInformation
-                        WHERE username LIKE ('%{}%')'''.format(
-                        form.username_search.data))
-            search = cur.fetchall()
-        except TypeError:
+            cur.execute('''SELECT username, profile_image FROM
+                        ProfileInformation WHERE username LIKE
+                        ('%{}%')'''.format(form.username_search.data))  # Executes a SQL query for the users search, looks for similiar searches
+            search = cur.fetchall()  # Assigns the results to a tuple
+        except TypeError:  # Checks for user entering Type None in search
             flash("No users found.")
-            return redirect(url_for('home'))
-        if not len(search) > 0:
+        if not len(search) > 0:  # Checks if the len of the search is not greater than 0
             flash("No users found.")
-            return redirect(url_for('home'))
         return render_template("results.html",
                                page_title="User Search for {}".format(
-                                form.username_search.data), search=search)
+                                form.username_search.data), search=search,
+                               search_raw=search_raw)  # Returns render template with search tuple and raw search input
     flash("No Results Found.")
-    return render_template("results.html", page_title="No Results Found")
+    return render_template("results.html", page_title="No Results Found")  # Returns for when no results found
 
 
 @app.route('/submit', methods=['GET', 'POST'])
@@ -88,7 +86,7 @@ def submit():
         cur.execute('''SELECT username FROM ProfileInformation
                     WHERE username = ('{}');'''.format(form.username.data))
         un = cur.fetchone()
-        if un is None:
+        if un is None:  # Checks if the username exists in the database
             flash("Invalid username or password.")
             return redirect(url_for('submit'))
         cur.execute('''SELECT password_hash FROM ProfileInformation
@@ -100,24 +98,24 @@ def submit():
         kills = form.kills.data
         deaths = form.deaths.data
         con_kdr = None
-        if deaths == 0:
+        if deaths == 0:  # Checks for deaths equals zero to avoid div by zero
             kdr = kills
             con_kdr = kdr
         else:
-            kdr = kills / deaths
-            con_kdr = round(kdr, 2)
+            kdr = kills / deaths  # Calculates a float value
+            con_kdr = round(kdr, 2)  # Rounds the float value to 2 decimals
         cur.execute('''INSERT INTO SubmitedData (pid, kills, deaths, kdr, MMR)
                     VALUES ('{}', '{}', '{}', '{}', '{}');'''.format(
                     unid[0], form.kills.data, form.deaths.data, con_kdr,
-                    form.MMR.data))
-        if un[0] is None or not check_password_hash(pw[0], form.password.data):
+                    form.MMR.data))  # Executes a query inserting a new row into the table for all the calculated data
+        if un[0] is None or not check_password_hash(pw[0], form.password.data):  # Checks if username exists or if the password hash is not returned as true
             flash('Invalid username or password.')
-            return redirect(url_for('submit'))
-        conn.commit()
+            return redirect(url_for('submit'))  # Returns the user back to the same web URL
+        conn.commit()  # Commits inserted values into database
         flash('Succesfully submited data.')
-        return redirect(url_for('home'))
+        return redirect(url_for('home'))  # Redirects user back to the home page
     return render_template('submitdata.html', page_title="Submit Data",
-                           form=form)
+                           form=form)  # Sends the form for jinja templating
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -133,18 +131,18 @@ def signup():
             flash("A user with that name already exists, please use another")
             return redirect(url_for('signup'))
         flash('Signup requested for {}.'.format(form.username.data))
-        f = form.image.data
-        upload = str(form.image.data)
-        fext = upload[-21:-17]
-        fname = form.username.data + fext
-        filename = secure_filename(fname)
+        f = form.image.data  # Assigns the uploaded file information to a variable
+        upload = str(form.image.data)  # Converts the uploaded image data into a string
+        fext = upload[-21:-17]  # F(ile)ext(ension) is set equal to the file extension of the uploaded image
+        fname = form.username.data + fext  # The file name is assigned as the username plus the image file extension
+        filename = secure_filename(fname)  # Makes the filename secure
         f.save(os.path.join(app.instance_path, "static/images/profiles/",
-                            filename))
+                            filename))  # Saves the image to the webapps path for images
         cur.execute('''INSERT INTO ProfileInformation (username, password_hash,
                     profile_image) VALUES ('{}', '{}', '{}');'''.format(
                     form.username.data, generate_password_hash(
-                        form.password.data),
-                    "/static/images/profiles/" + filename))
+                        form.password.data),  # Creates a Salted SHA256 hash of the users password for security
+                    "/static/images/profiles/" + filename))  # Inserts the new users information into the database table for users
         conn.commit()
         return redirect(url_for('signup'))
     return render_template('signup.html', page_title="Sign Up", form=form)
@@ -223,4 +221,4 @@ def inject_search():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="localhost", port=8080)
+    app.run(debug=True, host="localhost", port=8080)

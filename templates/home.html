@@ -1,4 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
-<p>Home Page</p>
+<div id="home">
+    <h2>Welcome to R6Web</h2>
+    <p>This website is an independent ranked stats tracker for Tom Clancy's Rainbow Six: Siege.</p>
+    <p>You can start entering your own data by signing up <a href="{{url_for('signup')}}">here</a>.</p>
+    <p>
+        If you would like to delete your account you may by clicking the link at the bottom of the page.<br>
+        (This will delete all data assigned to your account including: Your profile image, your account details and any submitted data)
+    </p>
+</div>
 {% endblock %}

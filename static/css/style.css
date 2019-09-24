@@ -1,15 +1,13 @@
 /* @group wrapper */
 /* Wrapper contains the contents of the website */
-
 #wrapper {
     padding: 5px;
     font-family: Trebuchet MS;
     min-width: 691px;
-    background-color: #ccc;
+    background-color: #c3c3c3;;
 }
 /* @end wrapper */
 /* Content contains the layout of the website    */
-
 #content {
     margin-top: 5px;
     margin-left: auto;
@@ -18,10 +16,8 @@
     width: 95%;
     text-align: center;
 }
-
 /* @group nav */
 /* Nav  */
-
 nav {
 	width: 100%;
 	top: 0;
@@ -85,7 +81,6 @@ nav a.active {
 /* @end nav */
 
 /* @group img */
-
 img {
     width: 100px;
     height: 100px;
@@ -93,8 +88,6 @@ img {
 /* @end img */
 
 /* @group user */
-
-/* @end user */
 #user img {
     border: solid 1px #000;
     width: 150px;
@@ -117,6 +110,7 @@ img {
     overflow-y: scroll;
     height: 150px;
 }
+/* @end user */
 
 /* @group flashes */
 .flashes {
@@ -196,10 +190,6 @@ td {
     align-content: center;
 }
 
-#user_stats {
-
-}
-
 #search_table {
     align-content: center;
     width: 30%;
@@ -231,3 +221,7 @@ td {
     width: auto;
 }
 /* @end table */
+
+#home a {
+    color: #cc0;
+}
