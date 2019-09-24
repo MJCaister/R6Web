@@ -71,7 +71,7 @@ def search_results():
             flash("No users found.")
         return render_template("results.html",
                                page_title="User Search for {}".format(
-                                form.username_search.data), search=search,
+                                   form.username_search.data), search=search,
                                search_raw=search_raw)  # Returns render template with search tuple and raw search input
     flash("No Results Found.")
     return render_template("results.html", page_title="No Results Found")  # Returns for when no results found
