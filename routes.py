@@ -18,7 +18,7 @@ if development_build is True:
     else:
         instancepath = "C:/Users/nukes/Desktop/Git Desktop/R6Web/"
 else:
-    print()  # File location for live build file system
+    instancepath = "/home/Predictive/R6Web"
 # End of File System Management
 
 # Flask Config
