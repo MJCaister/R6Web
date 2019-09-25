@@ -5,10 +5,12 @@ from werkzeug.utils import secure_filename
 import sqlite3
 import os
 from leaderboard import leaderboard_sort
+# Importing dependency librarys and leaderboard function
+
 
 # File System Management is used to set the file location of
 # Start of Different File System Management
-school_dir = False
+school_dir = True
 instancepath = None
 development_build = True
 
@@ -149,7 +151,7 @@ def signup():
 
 
 @app.route('/user/<user>')
-def user(user):
+def user(user):  # Parses conext from the url
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
     cur.execute('''SELECT profile_image FROM ProfileInformation
@@ -157,7 +159,7 @@ def user(user):
     results = cur.fetchone()
     cur.execute('''SELECT username, kills, deaths, kdr, MMR
                 FROM SubmitedData AS S INNER JOIN ProfileInformation
-                AS P ON S.pid = P.id WHERE P.username = '{}';'''.format(user))
+                AS P ON S.pid = P.id WHERE P.username = '{}';'''.format(user))  # Retreives users match history from database
     data = cur.fetchall()
     table = data
     return render_template('user.html', page_title=user, user=user,
@@ -179,23 +181,23 @@ def delete():
             flash('''Invalid username/password or this account
                   has already been deleted.''')
             return redirect(url_for('delete'))
-        if form.delete_check.data != form.username.data:
+        if form.delete_check.data != form.username.data:  # Checks the username against the delete checker to prevent accidental deletions of accounts
             flash('Incorrect username was provided for the check.')
             return redirect(url_for('delete'))
         cur.execute('''SELECT profile_image FROM ProfileInformation WHERE
                     username = '{}';'''.format(form.username.data))
         imageLoc = cur.fetchone()
         try:
-            os.remove(app.instance_path + imageLoc[0])
+            os.remove(app.instance_path + imageLoc[0])  # Try to delete users image file
         except OSError as e:
-            print(e)
+            print(e)  # If file does not exist, return the error to console
         cur.execute('''SELECT id FROM ProfileInformation WHERE
                     username = ('{}');'''.format(form.username.data))
         uid = cur.fetchone()
         cur.execute('''DELETE FROM ProfileInformation
                     WHERE username = '{}';'''.format(form.username.data))
         cur.execute('''DELETE FROM SubmitedData WHERE
-                    pid = {};'''.format(uid[0]))
+                    pid = {};'''.format(uid[0]))  # Deletes data against the users ID
         conn.commit()
         flash('Sucessfully deleted data for user: {}'.format(
               form.username.data))
@@ -204,9 +206,9 @@ def delete():
                            form=form)
 
 
-@app.errorhandler(404)
+@app.errorhandler(404)  # Checks for 404 error in the error handler
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return render_template('404.html'), 404  # Returns the 404 page
 
 
 @app.errorhandler(500)
@@ -214,11 +216,11 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 
-@app.context_processor
+@app.context_processor  # Allows the search form to be accessible
 def inject_search():
     searchform = UserSearch()
-    return dict(searchform=searchform)
+    return dict(searchform=searchform)  # Returns the form as a dictionary
 
 
-if __name__ == "__main__":
-    app.run(debug=True, host="localhost", port=8080)
+if __name__ == "__main__":  # Checks if the webapp name is correct
+    app.run(debug=True, host="localhost", port=8080)  # Initiates the application with the host name and the port

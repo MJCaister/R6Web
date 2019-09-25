@@ -3,7 +3,7 @@
 {% block content %}
     <div id="user">
         <h2>{{user}}'s Profile</h2>
-        <img src={{results[0]}} alt="{{user}}'s profile image">
+        <img src={{results[0]}} alt="{{user}}'s profile image"> <!-- Shows the users image with an alternate text if the image were to not load -->
     </div>
     <div class="match_history">
         <h3>{{user}}'s match history</h3>
@@ -15,7 +15,7 @@
                 <th>K/D</th>
                 <th>ELO/MMR</th>
             </tr>
-            {% for data in table %}
+            {% for data in table %} <!-- Makes a new row for each match the user has submitted -->
             <tr>
                 <td>{{data[1]}}</td>
                 <td>{{data[2]}}</td>
@@ -26,5 +26,5 @@
         </table>
         </div>
     </div>
-    <br>
+    <br><br> <!-- This is to stop the footer from colliding with the rest of the page -->
 {% endblock %}

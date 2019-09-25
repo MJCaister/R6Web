@@ -1,8 +1,8 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} <!-- Extends the html of the master layout -->
 
 {% block content %}
     <div id='errorhandler'>
         <h1>404</h1>
-        <p>You've made a mistake coming here, you can go back to the homepage using <a href={{url_for('home')}}>this link</a>.</p>
+        <p>You've made a mistake coming here, you can go back to the homepage using <a href={{url_for('home')}}>this link</a>.</p> <!-- Uses jinja syntaxing to retreive the url for the home page -->
     </div>
 {% endblock %}

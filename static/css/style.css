@@ -1,10 +1,10 @@
 /* @group wrapper */
 /* Wrapper contains the contents of the website */
 #wrapper {
-    padding: 5px;
-    font-family: Trebuchet MS;
-    min-width: 691px;
-    background-color: #c3c3c3;;
+    padding: 5px; /* Adds 5px of space before the content div */
+    font-family: Trebuchet MS; /* Sets the default font of the website */
+    min-width: 691px; /* Sets the minimum width so that the navbar does not collapse on itself */
+    background-color: #c3c3c3;
 }
 /* @end wrapper */
 /* Content contains the layout of the website    */
@@ -13,18 +13,18 @@
     margin-left: auto;
     margin-right: auto;
     padding: 5px;
-    width: 95%;
+    width: 95%; /* Makes the width of the webpage contents into a more central area for easier viewing of content*/
     text-align: center;
 }
 /* @group nav */
-/* Nav  */
+/* Nav */
 nav {
 	width: 100%;
-	top: 0;
+	top: 0; /* Sets the nav bar to the top of the div */
 	background-color: #6b6b6b;
 	overflow: hidden;
     opacity: 50;
-	position: sticky;
+	position: sticky; /* When the webpage is scrolled down the navbar will follow the top of the webpage */
 }
 
 nav a {
@@ -32,15 +32,15 @@ nav a {
 	color: #FFDD03;
 	text-align: center;
 	padding: 14px 16px;
-	text-decoration: none;
+	text-decoration: none; /* Removes the underline text decorator which is added by default on anchors */
 	font-size: 17px;
 	margin: 1px;
-	display: block;
-	width: auto;
+	display: block; /* Makes the anchors blocks so that they can be stacked next to each other */
+	width: auto; /* Automatically sets the width of the anchor to the size of the text inside of it */
 }
 
 #navLogo {
-    padding: 0px !important;
+    padding: 0px !important; /* Overwrites the padding on the anchor text */
     height: 48px;
     width: 127.78px;
 }
@@ -54,18 +54,18 @@ nav a {
 	background-color: #6b6b6b !important;
 }
 
-nav a:hover {
+nav a:hover { /* These elements are changed when the user hovers over the anchor */
 	background-color: rgba(251, 197, 3, 0.5);
 	color: #0A0A0A;
 }
 
-nav a.active {
+nav a.active { /* These elements are change when the user clicks on the anchor */
 	background-color: #FBC403;
 	color: #0A0A0A;
 }
 
 #profile {
-    float: right;
+    float: right; /* Floats the navbar user links to the right */
 }
 
 .search {
@@ -76,12 +76,12 @@ nav a.active {
 	font-size: 5px;
 	display: block;
 	width: auto;
-    max-height: 48px;
+    max-height: 48px; /* Sets the max height of the search bar so that all the nav anchors are the same height */
 }
 /* @end nav */
 
 /* @group img */
-img {
+img { /* Sets all images to 100x100px by defaults */
     width: 100px;
     height: 100px;
 }
@@ -89,40 +89,42 @@ img {
 
 /* @group user */
 #user img {
-    border: solid 1px #000;
+    border: solid 1px #000; /* Adds a border on the users profile image in the user page */
     width: 150px;
     height: 150px;
 }
-
+/* For #user and .match_history they are set to display block and the margins are set so that they are stacked beside each other on the user page */
 #user {
     float: left;
     margin-left: 35%;
     margin-top: 10%;
+    display: block;
 }
 
 .match_history {
     float: left;
     margin-left: 5%;
     margin-top: 10%;
+    display: block;
 }
 
 .match_table {
-    overflow-y: scroll;
+    overflow-y: scroll; /* Adds an automatic scrollbar for when the users data has reached to many entries to view in the match_history div */
     height: 150px;
 }
 /* @end user */
 
 /* @group flashes */
 .flashes {
-    font-weight: bold;
-    color: #dd0;
+    font-weight: bold; /* Bolds the text */
+    color: #dd0; /* Sets the text color */
     background-color: rgba(10, 10, 10, 0.5);
-    text-decoration: underline;
-    list-style: none;
+    text-decoration: underline; /* Adds a manual underline for the flash */
+    list-style: none; /* Gets rid of the automatic dots added by list items */
     width: auto;
     margin: 0px;
     padding: 0px;
-    margin-top: 1px;
+    margin-top: 1px; /* Adds a top margin to sepperate it from the navbar */
     text-align: center;
 }
 
@@ -141,10 +143,10 @@ footer {
 
 /* @group forms */
 span {
-    color: red;
+    color: red; /* Sets the validation error color from forms to red */
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password] { /* Sets the border radius for input fields with the types text and password */
     border-radius: 4px;
     padding: 5px 10px;
 }
@@ -152,13 +154,13 @@ input[type=text], input[type=password] {
 
 /* @group table */
 table, tr, td, th {
-    border-collapse: collapse;
+    border-collapse: collapse; /* Gets rid of borders when they are next to each other in the table */
     padding: 0px 3px;
     color: #dd0;
 }
 
 table {
-    border: 2px solid #222;
+    border: 2px solid #222; /* Adds outer border to the table */
 }
 
 table a {
@@ -166,7 +168,7 @@ table a {
 }
 
 th{
-    font-weight: bolder;
+    font-weight: bolder; /* Sets the font to an even bolder text for the table header */
     border-bottom: 2px solid #222;
     border-top: 2px solid #222;
     background-color: #111 !important;
@@ -176,21 +178,21 @@ tr {
     background-color: #404850c8;
 }
 
-tr:nth-child(even) {
+tr:nth-child(even) { /* Sets the background color of every second table row to a different color */
     background-color: #999;
 }
 
 td {
-    text-align: center;
+    text-align: center; /* Aligns the text of the table data to the center of the cell */
     border: 1px solid #333;
 }
 
-#user_stats {
+#user_stats { /* Sets the width of the table to 40% of the match history div */
     width: 40%;
     align-content: center;
 }
 
-#search_table {
+#search_table { /* Sets the user search tables conent including images to center */
     align-content: center;
     width: 30%;
 }
@@ -207,21 +209,21 @@ td {
     text-decoration: underline;
 }
 
-#search_table th {
+#search_table th { /* Sets the table header to stay at the top of the screen when the user scrolls down */
     top: 49px;
     position: sticky;
 }
 
-.match_table th {
+.match_table th { /* Sets the match table header 1px higher than the div top for the user to scroll down through their match history */
     top: -1px;
     position: sticky;
 }
 
-.search_row {
+.search_row { /* Automatically sets the width of the search table rows */
     width: auto;
 }
 /* @end table */
 
 #home a {
-    color: #cc0;
+    color: #cc0; /* Sets the anchors on the home page to a yellow color */
 }

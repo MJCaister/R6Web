@@ -1,18 +1,16 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>Search Results for "{{search_raw}}"</h1>
+    <h1>Search Results for "{{search_raw}}"</h1> <!-- Parsed text from user search -->
     <table id="search_table" align=center>
         <tr>
             <th>Image</th>
             <th>Username</th>
-            <th>Rank</th>
         </tr>
         {% for data in search %}
             <tr class="search_row">
-                <td><a href='/user/{{data[0]}}'><img src='{{data[1]}}' alt='Profile Image for {{data[0]}}'></a></td>
-                <td><a href='/user/{{data[0]}}'>{{data[0]}}</a></td>
-                <td>Rank</td>
+                <td><a href='/user/{{data[0]}}'><img src='{{data[1]}}' alt='Profile Image for {{data[0]}}'></a></td> <!-- Makes a clickable image for the users profile image -->
+                <td><a href='/user/{{data[0]}}'>{{data[0]}}</a></td> <!-- Shows the users name -->
             </tr>
         {% endfor %}
     </table>
