@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Sign Up</h1>
-    <form action="" method="post" novalidate enctype="multipart/form-data">
+    <form action="" method="post" novalidate enctype="multipart/form-data"> <!-- Sets the encryption type so that images can be parsed to the webiste -->
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>

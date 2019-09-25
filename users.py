@@ -6,10 +6,12 @@ from wtforms.validators import (DataRequired, NumberRange, InputRequired,
 
 
 class SubmitData(FlaskForm):
+    # Makes sure the user inputs data and sets a disapearing text inside of the input field html
     username = StringField('Username', validators=[DataRequired()],
                            render_kw={"placeholder": "Username"})
     password = PasswordField('Password', validators=[DataRequired()],
                              render_kw={"placeholder": "Password"})
+    # Makes sure that the user submits a valid value
     kills = IntegerField('Kills', validators=[
                          InputRequired("Please enter a whole number."),
                          NumberRange(min=0, max=75)],
@@ -36,6 +38,7 @@ class Signup(FlaskForm):
                                         message='Passwords must match.')],
                                      render_kw={"placeholder":
                                      "Confirm Password"})
+    # Checks that the users uploaded image is only of the file types .jpg or .png and makes sure that the user submits a image
     image = FileField('Profile Image [.jpg, .png]', validators=[
                       FileRequired('Please upload a profile image'),
                       FileAllowed(['jpg', 'png'], '.jpg or .png only!')])

@@ -1,17 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
 <p>Leaderboard</p>
-<table id="leaderboard" align=center>
+<table id="leaderboard" align=center> <!-- Creates a table -->
     <tr>
         <th>Rank</th>
-        <th>Username</th>
+        <th>Username</th> <!-- sets the table headers -->
         <th>ELO</th>
     </tr>
-    {% for player in list %}
+    {% for player in list %} <!-- Makes a new row per user -->
     <tr>
-        <td><a href="/user/{{player[0]}}">{{loop.index}}</a></td>
-        <td><a href="/user/{{player[0]}}">{{player[0]}}</a></td>
-        <td><a href="/user/{{player[0]}}">{{player[1]}}</a></td>
+        <td><a href="/user/{{player[0]}}">{{loop.index}}</a></td> <!-- Automatically numbers the users -->
+        <td><a href="/user/{{player[0]}}">{{player[0]}}</a></td> <!-- Parses the username from the leaderboard function returned tuple -->
+        <td><a href="/user/{{player[0]}}">{{player[1]}}</a></td> <!-- Parses the ELO of the player -->
     </tr>
     {% endfor %}
 </table>

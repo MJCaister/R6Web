@@ -1,7 +1,7 @@
 <nav>
-    <a id="navLogo" href="{{url_for('home')}}"><img align=center src="/static/images/r6webLogo.png"></a>
+    <a id="navLogo" href="{{url_for('home')}}"><img align=center src="/static/images/r6webLogo.png"></a> <!-- Create a clickable image for the home page -->
     <a href="{{url_for('leaderboard')}}">Leaderboard</a>
-    <div class="search">
+    <div class="search"> <!-- Seperates all the user pages to right side of navbar -->
     <form action="{{url_for('search_results')}}" method="post" novalidate>
         {{ searchform.hidden_tag() }}
             {{ searchform.username_search(size=25) }}<br>

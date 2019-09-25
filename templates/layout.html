@@ -1,25 +1,25 @@
 <!doctype html>
 <html>
     <head>
-        <title>R6Web - {{ page_title }}</title>
-        <link rel="stylesheet" href="/static/css/style.css" type="text/css">
-        <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+        <title>R6Web - {{ page_title }}</title> <!-- Sets the page title from the parsed data from the render_template -->
+        <link rel="stylesheet" href="/static/css/style.css" type="text/css"> <!-- Links the style sheet -->
+        <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon"> <!-- Links the favicon -->
     </head>
     <body>
         <div id="wrapper">
             {% include "header.html" %}
             {% include "nav.html" %}
-            {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages() %} <!-- Gets the flashed messages -->
             {% if messages %}
             <ul class=flashes>
                 {% for message in messages %}
-                <li>{{ message }}</li>
+                <li>{{ message }}</li> <!-- Shows the flashed message to the user -->
                 {% endfor %}
             </ul>
             {% endif %}
             {% endwith %}
             <div id="content">
-                {% block content %}
+                {% block content %} <!-- Contains the data for each page -->
                 {% endblock %}
             </div>
             {% include "footer.html" %}
