@@ -4,7 +4,7 @@
     padding: 5px; /* Adds 5px of space before the content div */
     font-family: Trebuchet MS; /* Sets the default font of the website */
     min-width: 691px; /* Sets the minimum width so that the navbar does not collapse on itself */
-    background-color: #c3c3c3;
+    background-color: #b7b7b7;
 }
 /* @end wrapper */
 /* Content contains the layout of the website    */
@@ -29,7 +29,7 @@ nav {
 
 nav a {
     float: left;
-	color: #FFDD03;
+	color: #ffdd00;
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none; /* Removes the underline text decorator which is added by default on anchors */
@@ -226,4 +226,5 @@ td {
 
 #home a {
     color: #cc0; /* Sets the anchors on the home page to a yellow color */
+    background-color: gray; /* Sets the background color of the anchor to contrast the yellow */
 }
