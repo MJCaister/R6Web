@@ -12,7 +12,7 @@ from leaderboard import leaderboard_sort
 # Start of Different File System Management
 school_dir = True
 instancepath = None
-development_build = True
+development_build = False
 
 if development_build is True:
     if school_dir is True:
@@ -222,5 +222,6 @@ def inject_search():
     return dict(searchform=searchform)  # Returns the form as a dictionary
 
 
-if __name__ == "__main__":  # Checks if the webapp name is correct
-    app.run(debug=True, host="localhost", port=8080)  # Initiates the application with the host name and the port
+if development_build:
+    if __name__ == "__main__":  # Checks if the webapp name is correct
+        app.run(debug=True, host="localhost", port=8080)  # Initiates the application with the host name and the port
