@@ -1,8 +1,9 @@
+<!doctype html>
 {% extends "layout.html" %}
 
 {% block content %}
     <h1>Delete Account</h1>
-    <form action="" method="post" novalidate> <!-- Creates a form with novalidate to use Flask Forms own validation methods -->
+    <form method="post" novalidate> <!-- Creates a form with novalidate to use Flask Forms own validation methods -->
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br> <!-- Displays the username -->

@@ -2,11 +2,11 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms.validators import (DataRequired, NumberRange, InputRequired,
-                                EqualTo)
+                                EqualTo, Regexp)
 
 
 class SubmitData(FlaskForm):
-    # Makes sure the user inputs data and sets a disapearing text inside of the input field html
+    # Makes sure the user inputs data and sets a placeholder text(render_kw) inside of the input field html
     username = StringField('Username', validators=[DataRequired()],
                            render_kw={"placeholder": "Username"})
     password = PasswordField('Password', validators=[DataRequired()],
@@ -28,7 +28,13 @@ class SubmitData(FlaskForm):
 
 
 class Signup(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()],
+    username = StringField('Username',
+                           validators=[
+                            DataRequired(), Regexp(
+                                "[A-Za-z0-9_.-]{3,16}",
+                                message='''Minimum of 3 characters, Alphanumeric, underscores and
+                                        periods are allowed.''')
+                            ],  # Checks for alphanumeric entry only
                            render_kw={"placeholder": "Username"})
     password = PasswordField('Password', validators=[DataRequired()],
                              render_kw={"placeholder": "Password"})

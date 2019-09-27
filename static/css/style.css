@@ -48,6 +48,7 @@ nav a {
 #navLogo img {
     height: 48px !important;
     width: 120.78px !important;
+    float: none;
 }
 
 #navLogo a:hover {
@@ -105,6 +106,7 @@ img { /* Sets all images to 100x100px by defaults */
     float: left;
     margin-left: 5%;
     margin-top: 10%;
+    margin-bottom: 1%;
     display: block;
 }
 
@@ -118,7 +120,7 @@ img { /* Sets all images to 100x100px by defaults */
 .flashes {
     font-weight: bold; /* Bolds the text */
     color: #dd0; /* Sets the text color */
-    background-color: rgba(10, 10, 10, 0.5);
+    background-color: #6b6b6b;
     text-decoration: underline; /* Adds a manual underline for the flash */
     list-style: none; /* Gets rid of the automatic dots added by list items */
     width: auto;
@@ -157,6 +159,8 @@ table, tr, td, th {
     border-collapse: collapse; /* Gets rid of borders when they are next to each other in the table */
     padding: 0px 3px;
     color: #dd0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 table {

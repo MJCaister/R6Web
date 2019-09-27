@@ -1,5 +1,6 @@
+<!doctype html>
 <nav>
-    <a id="navLogo" href="{{url_for('home')}}"><img align=center src="/static/images/r6webLogo.png"></a> <!-- Create a clickable image for the home page -->
+    <a id="navLogo" href="{{url_for('home')}}"><img src="/static/images/r6webLogo.png" alt="R6Web Logo"></a> <!-- Create a clickable image for the home page -->
     <a href="{{url_for('leaderboard')}}">Leaderboard</a>
     <div class="search"> <!-- Seperates all the user pages to right side of navbar -->
     <form action="{{url_for('search_results')}}" method="post" novalidate>

@@ -10,7 +10,7 @@ from leaderboard import leaderboard_sort
 
 # File System Management is used to set the file location of
 # Start of Different File System Management
-school_dir = True
+school_dir = False
 instancepath = None
 development_build = True
 
