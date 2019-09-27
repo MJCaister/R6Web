@@ -31,7 +31,7 @@ class Signup(FlaskForm):
     username = StringField('Username',
                            validators=[
                             DataRequired(), Regexp(
-                                "[A-Za-z0-9_.-]{3,16}",
+                                "(?!.*[\.\-\_]{2,})^[a-zA-Z0-9\.\-\_]{3,24}$",
                                 message='''Minimum of 3 characters, Alphanumeric, underscores and
                                         periods are allowed.''')
                             ],  # Checks for alphanumeric entry only
