@@ -10,13 +10,13 @@ from leaderboard import leaderboard_sort
 
 # File System Management is used to set the file location of
 # Start of Different File System Management
-school_dir = False
+school_dir = True
 instancepath = None
 development_build = True
 
 if development_build is True:
     if school_dir is True:
-        instancepath = "H:/Programming/R6WEB/"
+        instancepath = "S:/16086/R6Web"
     else:
         instancepath = "C:/Users/nukes/Desktop/Git Desktop/R6Web/"
 else:
