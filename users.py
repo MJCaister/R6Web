@@ -32,8 +32,8 @@ class Signup(FlaskForm):
                            validators=[
                             DataRequired(), Regexp(
                                 "(?!.*[\.\-\_]{2,})^[a-zA-Z0-9\.\-\_]{3,24}$",
-                                message='''Minimum of 3 characters, Alphanumeric, underscores and
-                                        periods are allowed.''')
+                                message='''Must be between 3 and 24 characters, Alphanumeric, underscores(_), hyphens(-) and
+                                        periods(.) are allowed.''')
                             ],  # Checks for alphanumeric entry only
                            render_kw={"placeholder": "Username"})
     password = PasswordField('Password', validators=[DataRequired()],

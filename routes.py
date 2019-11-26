@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, abort
 from users import SubmitData, Signup, UserSearch, DeleteProfile
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -10,17 +10,8 @@ from leaderboard import leaderboard_sort
 
 # File System Management is used to set the file location of
 # Start of Different File System Management
-school_dir = True
-instancepath = None
-development_build = True
-
-if development_build is True:
-    if school_dir is True:
-        instancepath = "S:/16086/R6Web"
-    else:
-        instancepath = "C:/Users/nukes/Desktop/Git Desktop/R6Web/"
-else:
-    instancepath = "/home/Predictive/R6Web"
+instancepath = os.path.abspath("routes.py")
+instancepath = instancepath.replace("routes.py", "")
 # End of File System Management
 
 # Flask Config
@@ -28,14 +19,9 @@ app = Flask(__name__, instance_path=instancepath)  # sets the variable app with 
 app.config['SECRET_KEY'] = '/trailing_slashes/'  # Sets the secret key of the flaskapp
 
 # Checks if the flaskapp is running inside of development mode to then show the directory
-if development_build is True:
-    print("\n")
-    print("INSTANCE PATH: {}".format(app.instance_path))
-    print("\n")
-else:
-    print("\n")
-    print("RUNNING ON LIVE DIRECTORY")
-    print("\n")
+print("\n")
+print("INSTANCE PATH: {}".format(app.instance_path))
+print("\n")
 # End of Flask Config
 
 
@@ -75,7 +61,7 @@ def search_results():
                                page_title="User Search for {}".format(
                                    form.username_search.data), search=search,
                                search_raw=search_raw)  # Returns render template with search tuple and raw search input
-    flash("No Results Found.")
+    flash("Please search for a user.")
     return render_template("results.html", page_title="No Results Found")  # Returns for when no results found
 
 
@@ -99,23 +85,23 @@ def submit():
         unid = cur.fetchone()
         kills = form.kills.data
         deaths = form.deaths.data
-        con_kdr = None
+        final_kdr = None
         if deaths == 0:  # Checks for deaths equals zero to avoid div by zero
             kdr = kills
-            con_kdr = kdr
+            fianl_kdr = kdr
         else:
             kdr = kills / deaths  # Calculates a float value
-            con_kdr = round(kdr, 2)  # Rounds the float value to 2 decimals
+            final_kdr = round(kdr, 2)  # Rounds the float value to 2 decimals
         cur.execute('''INSERT INTO SubmitedData (pid, kills, deaths, kdr, MMR)
                     VALUES ('{}', '{}', '{}', '{}', '{}');'''.format(
-                    unid[0], form.kills.data, form.deaths.data, con_kdr,
-                    form.MMR.data))  # Executes a query inserting a new row into the table for all the calculated data
-        if un[0] is None or not check_password_hash(pw[0], form.password.data):  # Checks if username exists or if the password hash is not returned as true
+                    unid[0], form.kills.data, form.deaths.data, final_kdr,
+                    form.MMR.data))  # Imports user's data into database
+        if un[0] is None or not check_password_hash(pw[0], form.password.data):  # Checks if the user or password are True
             flash('Invalid username or password.')
-            return redirect(url_for('submit'))  # Returns the user back to the same web URL
-        conn.commit()  # Commits inserted values into database
+            return redirect(url_for('submit'))
+        conn.commit()  # Commits database changes
         flash('Succesfully submited data.')
-        return redirect(url_for('home'))  # Redirects user back to the home page
+        return redirect(url_for('home'))
     return render_template('submitdata.html', page_title="Submit Data",
                            form=form)  # Sends the form for jinja templating
 
@@ -135,11 +121,11 @@ def signup():
         flash('Signup requested for {}.'.format(form.username.data))
         f = form.image.data  # Assigns the uploaded file information to a variable
         upload = str(form.image.data)  # Converts the uploaded image data into a string
-        fext = upload[-21:-17]  # F(ile)ext(ension) is set equal to the file extension of the uploaded image
-        fname = form.username.data + fext  # The file name is assigned as the username plus the image file extension
+        file_extension = upload[-21:-17]  # is set equal to the file extension of the uploaded image
+        fname = form.username.data + file_extension  # The file name is assigned as the username plus the image file extension
         filename = secure_filename(fname)  # Makes the filename secure
-        f.save(os.path.join(app.instance_path, "static/images/profiles/",
-                            filename))  # Saves the image to the webapps path for images
+        f.save(os.path.join(app.instance_path, "static\\images\\profiles\\",
+                            filename))  # Saves the image to the webapp's path for images
         cur.execute('''INSERT INTO ProfileInformation (username, password_hash,
                     profile_image) VALUES ('{}', '{}', '{}');'''.format(
                     form.username.data, generate_password_hash(
@@ -154,6 +140,11 @@ def signup():
 def user(user):  # Parses conext from the url
     conn = sqlite3.connect('db/r6web.db')
     cur = conn.cursor()
+    cur.execute('''SELECT username FROM ProfileInformation
+                WHERE username = '{}';'''.format(user))
+    check_if_exists = cur.fetchone()
+    if check_if_exists is None:
+        abort(404)
     cur.execute('''SELECT profile_image FROM ProfileInformation
                 WHERE username = '{}';'''.format(user))
     results = cur.fetchone()
@@ -188,7 +179,7 @@ def delete():
                     username = '{}';'''.format(form.username.data))
         imageLoc = cur.fetchone()
         try:
-            os.remove(app.instance_path + imageLoc[0])  # Try to delete users image file
+            os.remove(instancepath + imageLoc[0])  # Try to delete users image file
         except OSError as e:
             print(e)  # If file does not exist, return the error to console
         cur.execute('''SELECT id FROM ProfileInformation WHERE
